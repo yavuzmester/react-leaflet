@@ -1,6 +1,6 @@
 {
-  "name": "react-leaflet",
-  "version": "0.12.3",
+  "name": "@yavuzmester/react-leaflet",
+  "version": "0.12.3-try1",
   "description": "React components for Leaflet maps",
   "main": "lib/index.js",
   "scripts": {
@@ -29,7 +29,7 @@
     "leaflet",
     "map"
   ],
-  "author": "Paul Le Cam <paul@ulem.net>",
+  "author": "Yavuz Mester",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/PaulLeCam/react-leaflet/issues"
@@ -37,12 +37,18 @@
   "homepage": "https://github.com/PaulLeCam/react-leaflet",
   "dependencies": {
     "lodash": "^4.0.0",
-    "warning": "^3.0.0"
-  },
-  "peerDependencies": {
     "leaflet": "^0.7.0",
     "react": "^0.14.0 || ^15.0.0",
-    "react-dom": "^0.14.0 || ^15.0.0"
+    "react-dom": "^0.14.0 || ^15.0.0",
+    "warning": "^3.0.0"
+  },
+  "browserify-shim": {
+    "leaflet": "global:L",
+    "react": "global:React",
+    "react-dom": {"exports": "global:ReactDOM", "depends": ["react:React"]}
+  },
+  "browserify": {
+    "transform": ["browserify-shim"]
   },
   "devDependencies": {
     "babel-cli": "^6.10.1",
