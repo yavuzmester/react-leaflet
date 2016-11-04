@@ -1,6 +1,6 @@
 {
   "name": "@yavuzmester/react-leaflet",
-  "version": "0.12.3-try2",
+  "version": "0.12.3-try3",
   "description": "React components for Leaflet maps",
   "main": "lib/index.js",
   "scripts": {
@@ -43,7 +43,8 @@
     "warning": "^3.0.0"
   },
   "browserify-shim": {
-    "leaflet": "global:L"
+    "leaflet": "global:L",
+    "react": "global:React"
   },
   "browserify": {
     "transform": ["browserify-shim"]
