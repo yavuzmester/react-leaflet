@@ -30,7 +30,7 @@ export WMSTileLayer from './WMSTileLayer'
 export ZoomControl from './ZoomControl'
 
 export const setIconDefaultImagePath = path => {
-  Leaflet.Icon.Default.imagePath = path
+    Leaflet.Icon.Default.imagePath = path
 }
 
 setIconDefaultImagePath('//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images')

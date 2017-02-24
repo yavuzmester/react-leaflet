@@ -1,0 +1,18 @@
+{
+    "version": "2.1.5",
+    "compilerOptions": {
+        "module": "commonjs",
+        "lib": ["es2015", "es2016", "dom"],
+        "target": "es5",
+        "jsx": "react",
+        "skipLibCheck": true,
+        "strictNullChecks": true
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "**/node_modules",
+        "**/*.d.ts"
+    ]
+}
