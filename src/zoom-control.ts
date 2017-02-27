@@ -13,6 +13,18 @@ interface ZoomControlProps {
     zoomOutTitle?: string
 }
 
+/**
+ * You can define leaflet-zoom-control class in your css file, e.g.
+.leaflet-zoom-control {
+  width: 60px;
+  height: 22px;
+  text-align: center;
+  font: bold 12px/20px Tahoma, Verdana, sans-serif;
+  background-color: white;
+  cursor: default;
+}
+ */
+
 class ZoomControl extends MapControl {
     props: ZoomControlProps;
     leafletElement: LeafletControl.Zoom | undefined;

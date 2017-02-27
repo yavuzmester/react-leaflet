@@ -6,6 +6,17 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var map_control_1 = require("./map-control");
 var leaflet_1 = require("leaflet");
+/**
+ * You can define leaflet-zoom-control class in your css file, e.g.
+.leaflet-zoom-control {
+  width: 60px;
+  height: 22px;
+  text-align: center;
+  font: bold 12px/20px Tahoma, Verdana, sans-serif;
+  background-color: white;
+  cursor: default;
+}
+ */
 var ZoomControl = (function (_super) {
     __extends(ZoomControl, _super);
     function ZoomControl(props, context) {

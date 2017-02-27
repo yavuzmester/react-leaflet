@@ -38,9 +38,6 @@ LayersControl.propTypes = {
         react_1.PropTypes.node,
     ]).isRequired
 };
-LayersControl.contextTypes = {
-    map: react_1.PropTypes.instanceOf(leaflet_1.Map).isRequired
-};
 LayersControl.childContextTypes = {
     layersControl: react_1.PropTypes.instanceOf(leaflet_1.Control.Layers)
 };

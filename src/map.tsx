@@ -11,7 +11,6 @@ import {omit, uniqueId} from 'underscore'
 
 interface MapProps extends LeafletMap.MapOptions {
     bounds: [LatLng, LatLng, LatLng, LatLng],
-    maxBounds?: any,
     style: {
         width?: number,
         height: number,

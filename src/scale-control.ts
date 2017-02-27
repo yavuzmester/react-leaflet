@@ -11,6 +11,9 @@ interface ScaleControlProps {
 }
 
 class ScaleControl extends MapControl {
+    props: ScaleControlProps;
+    leafletElement: LeafletControl.Scale | undefined;
+
     initLeafletElement() {
         this.leafletElement = new LeafletControl.Scale(this.props);
     }

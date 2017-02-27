@@ -15,17 +15,12 @@ interface LayersControlProps {
     position: "topleft" | "topright" | "bottomleft" | "bottomright"
 }
 
-interface LayersControlContext {
-    map: LeafletMap
-}
-
 interface LayersControlChildContext {
     layersControl: LeafletControl.Layers | undefined
 }
 
 class LayersControl extends MapControl {
     props: LayersControlProps & {children?: any};
-    context: LayersControlContext;
     leafletElement: LeafletControl.Layers | undefined;
 
     static propTypes = {
@@ -33,10 +28,6 @@ class LayersControl extends MapControl {
             PropTypes.arrayOf(PropTypes.node),
             PropTypes.node,
         ]).isRequired
-    };
-
-    static contextTypes = {
-        map: PropTypes.instanceOf(LeafletMap).isRequired
     };
 
     static childContextTypes = {
