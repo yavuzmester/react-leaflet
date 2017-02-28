@@ -1,13 +1,12 @@
 {
   "name": "@yavuzmester/react-leaflet",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "React components for Leaflet maps",
   "repository": {
     "type": "git",
     "url": "https://github.com/yavuzmester/react-leaflet.git"
   },
   "keywords": ["react-component", "react", "leaflet", "map", "typescript"],
-  "main": "src/index.js",
   "dependencies": {
     "underscore": "1.8.3"
   },
