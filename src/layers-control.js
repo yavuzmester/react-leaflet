@@ -30,6 +30,13 @@ var LayersControl = (function (_super) {
             layersControl: this.leafletElement
         };
     };
+    LayersControl.prototype.componentWillUnmount = function () {
+        var _this = this;
+        //below is needed, otherwise layerscontrol is unmounted before its children (strangely)
+        setTimeout(function () {
+            _super.prototype.componentWillUnmount.call(_this);
+        }, 0);
+    };
     return LayersControl;
 }(map_control_1.MapControl));
 LayersControl.propTypes = {

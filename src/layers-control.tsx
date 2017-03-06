@@ -60,6 +60,13 @@ class LayersControl extends MapControl {
             layersControl: this.leafletElement
         };
     }
+
+    componentWillUnmount () {
+        //below is needed, otherwise layerscontrol is unmounted before its children (strangely)
+        setTimeout(() => {
+            super.componentWillUnmount();
+        }, 0);
+    }
 }
 
 export {
