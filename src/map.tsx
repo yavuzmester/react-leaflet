@@ -4,9 +4,7 @@ import {LatLng, Events} from "./types";
 import * as React from 'react';
 import {PureComponent, PropTypes} from "react";
 import {findDOMNode} from "react-dom";
-
 import {Map as LeafletMap} from 'leaflet';
-
 import {omit, uniqueId} from 'underscore'
 
 interface MapProps extends LeafletMap.MapOptions {

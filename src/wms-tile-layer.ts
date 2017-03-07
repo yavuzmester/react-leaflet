@@ -1,7 +1,6 @@
 import {TileLayer} from "./tile-layer";
 
 import {TileLayer as LeafletTileLayer} from "leaflet";
-
 import {omit} from "underscore";
 
 class WMSTileLayer extends TileLayer {

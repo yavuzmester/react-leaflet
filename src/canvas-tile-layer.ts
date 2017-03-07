@@ -2,7 +2,6 @@ import {MapLayer} from "./map-layer";
 import {Tile} from "./types";
 
 import {TileLayer as LeafletTileLayer} from 'leaflet';
-
 type LeafletCanvasTileLayerPatched = LeafletTileLayer.Canvas & {_tiles: any, _reset: Function, _update: Function};
 
 import {forEach} from "underscore";

@@ -1,7 +1,6 @@
 import {MapLayer} from "./map-layer";
 
 import {TileLayer as LeafletTileLayer} from 'leaflet';
-
 import {omit} from "underscore";
 
 interface TileLayerProps {
