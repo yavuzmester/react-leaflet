@@ -30,6 +30,7 @@ var TileLayer = (function (_super) {
     return TileLayer;
 }(map_layer_1.MapLayer));
 TileLayer.defaultProps = {
-    noWrap: true
+    noWrap: true,
+    opacity: 1
 };
 exports.TileLayer = TileLayer;

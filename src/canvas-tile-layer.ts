@@ -10,9 +10,18 @@ import {forEach} from "underscore";
 interface CanvasTileLayerProps {
     name: string,
     title: string,
-    opacity: number,
+    opacity?: number,
     isOverlay?: boolean,
     checked?: boolean
+}
+
+function initCanvas(canvas: HTMLCanvasElement): void {
+    const ctx: any = canvas.getContext("2d");
+
+    //smooth rendering
+    ctx.imageSmoothingEnabled = false;
+    ctx.webkitImageSmoothingEnabled = false;
+    ctx.mozImageSmoothingEnabled = false;
 }
 
 abstract class CanvasTileLayer extends MapLayer {
@@ -20,7 +29,8 @@ abstract class CanvasTileLayer extends MapLayer {
     leafletElement: LeafletCanvasTileLayerPatched | undefined;
 
     static defaultProps = {
-        noWrap: true
+        noWrap: true,
+        opacity: 1
     };
 
     initLeafletElement() {
@@ -35,15 +45,21 @@ abstract class CanvasTileLayer extends MapLayer {
 
     componentDidMount() {
         super.componentDidMount();
+        this._initCanvases();
 
         this._draw();
+    }
+
+    _initCanvases() {
+        const leafletElement: LeafletCanvasTileLayerPatched = this.leafletElement as LeafletCanvasTileLayerPatched;
+        forEach(leafletElement._tiles, canvas => initCanvas(canvas));
     }
 
     componentDidUpdate(prevProps: CanvasTileLayerProps) {
         const leafletElement: LeafletCanvasTileLayerPatched = this.leafletElement as LeafletCanvasTileLayerPatched;
 
         if (this.props.opacity !== prevProps.opacity) {
-            leafletElement.setOpacity(this.props.opacity);
+            leafletElement.setOpacity(this.props.opacity as any);
         }
 
         this._draw();
@@ -55,15 +71,16 @@ abstract class CanvasTileLayer extends MapLayer {
         leafletElement._reset();
         leafletElement._update();
 
-        forEach(leafletElement._tiles, canvas => {
-            const tile: Tile = {
-                ...canvas._tilePoint,
-                zoom: this.context.map.getZoom()
-            };
+        if (!this.props.isOverlay || this.props.checked) {
+            forEach(leafletElement._tiles, canvas => {
+                const tile: Tile = {
+                    ...canvas._tilePoint,
+                    zoom: this.context.map.getZoom()
+                };
 
-            this.drawTile(canvas, tile);
-
-        });
+                this.drawTile(canvas, tile);
+            });
+        }
     }
 }
 

@@ -8,7 +8,7 @@ interface TileLayerProps {
     name: string,
     title: string,
     url: string,
-    opacity: number,
+    opacity?: number,
     isBaseLayer?: boolean,
     checked?: boolean
 }
@@ -18,7 +18,8 @@ class TileLayer extends MapLayer {
     leafletElement: LeafletTileLayer;
 
     static defaultProps = {
-        noWrap: true
+        noWrap: true,
+        opacity: 1
     };
 
     initLeafletElement() {
@@ -40,7 +41,7 @@ class TileLayer extends MapLayer {
         }
 
         if (this.props.opacity !== prevProps.opacity) {
-            leafletElement.setOpacity(this.props.opacity);
+            leafletElement.setOpacity(this.props.opacity as any);
         }
     }
 }

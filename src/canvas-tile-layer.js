@@ -15,6 +15,13 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 var map_layer_1 = require("./map-layer");
 var leaflet_1 = require("leaflet");
 var underscore_1 = require("underscore");
+function initCanvas(canvas) {
+    var ctx = canvas.getContext("2d");
+    //smooth rendering
+    ctx.imageSmoothingEnabled = false;
+    ctx.webkitImageSmoothingEnabled = false;
+    ctx.mozImageSmoothingEnabled = false;
+}
 var CanvasTileLayer = (function (_super) {
     __extends(CanvasTileLayer, _super);
     function CanvasTileLayer() {
@@ -28,7 +35,12 @@ var CanvasTileLayer = (function (_super) {
     };
     CanvasTileLayer.prototype.componentDidMount = function () {
         _super.prototype.componentDidMount.call(this);
+        this._initCanvases();
         this._draw();
+    };
+    CanvasTileLayer.prototype._initCanvases = function () {
+        var leafletElement = this.leafletElement;
+        underscore_1.forEach(leafletElement._tiles, function (canvas) { return initCanvas(canvas); });
     };
     CanvasTileLayer.prototype.componentDidUpdate = function (prevProps) {
         var leafletElement = this.leafletElement;
@@ -42,14 +54,17 @@ var CanvasTileLayer = (function (_super) {
         var leafletElement = this.leafletElement;
         leafletElement._reset();
         leafletElement._update();
-        underscore_1.forEach(leafletElement._tiles, function (canvas) {
-            var tile = __assign({}, canvas._tilePoint, { zoom: _this.context.map.getZoom() });
-            _this.drawTile(canvas, tile);
-        });
+        if (!this.props.isOverlay || this.props.checked) {
+            underscore_1.forEach(leafletElement._tiles, function (canvas) {
+                var tile = __assign({}, canvas._tilePoint, { zoom: _this.context.map.getZoom() });
+                _this.drawTile(canvas, tile);
+            });
+        }
     };
     return CanvasTileLayer;
 }(map_layer_1.MapLayer));
 CanvasTileLayer.defaultProps = {
-    noWrap: true
+    noWrap: true,
+    opacity: 1
 };
 exports.CanvasTileLayer = CanvasTileLayer;
