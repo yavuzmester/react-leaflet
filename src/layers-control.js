@@ -12,12 +12,21 @@ var LayersControl = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     LayersControl.prototype.initLeafletElement = function () {
+        var _this = this;
         var baseLayers = this.props.baseLayers.reduce(function (memo, b) {
-            memo[b.title] = new leaflet_1.LayerGroup();
+            var layerGroup = new leaflet_1.LayerGroup();
+            if (b.title === _this.props.checkedBaseLayer) {
+                layerGroup.addTo(_this.context.map);
+            }
+            memo[b.title] = layerGroup;
             return memo;
         }, {});
         var overlays = this.props.overlays.reduce(function (memo, o) {
-            memo[o.title] = new leaflet_1.LayerGroup();
+            var layerGroup = new leaflet_1.LayerGroup();
+            if (o.checked) {
+                layerGroup.addTo(_this.context.map);
+            }
+            memo[o.title] = layerGroup;
             return memo;
         }, {});
         this.leafletElement = new leaflet_1.Control.Layers(baseLayers, overlays, { position: this.props.position });
@@ -25,9 +34,34 @@ var LayersControl = (function (_super) {
     LayersControl.prototype.render = function () {
         return null;
     };
+    LayersControl.prototype.componentDidMount = function () {
+        _super.prototype.componentDidMount.call(this);
+        if (this.props.onOverlayAdd) {
+            this.context.map.on("overlayadd", this.props.onOverlayAdd);
+        }
+        if (this.props.onOverlayRemove) {
+            this.context.map.on("overlayremove", this.props.onOverlayRemove);
+        }
+        if (this.props.onBaseLayerChange) {
+            this.context.map.on("baselayerchange", this.props.onBaseLayerChange);
+        }
+    };
     LayersControl.prototype.componentDidUpdate = function () {
         _super.prototype.componentWillUnmount.call(this);
+        _super.prototype.componentWillMount.call(this);
         _super.prototype.componentDidMount.call(this);
+    };
+    LayersControl.prototype.componentWillUnmount = function () {
+        _super.prototype.componentWillUnmount.call(this);
+        if (this.props.onOverlayAdd) {
+            this.context.map.removeEventListener("overlayadd", this.props.onOverlayAdd);
+        }
+        if (this.props.onOverlayRemove) {
+            this.context.map.removeEventListener("overlayremove", this.props.onOverlayRemove);
+        }
+        if (this.props.onBaseLayerChange) {
+            this.context.map.removeEventListener("baselayerchange", this.props.onBaseLayerChange);
+        }
     };
     return LayersControl;
 }(map_control_1.MapControl));
