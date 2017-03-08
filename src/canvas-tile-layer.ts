@@ -7,11 +7,7 @@ type LeafletCanvasTileLayerPatched = LeafletTileLayer.Canvas & {_tiles: any, _re
 import {forEach} from "underscore";
 
 interface CanvasTileLayerProps {
-    name: string,
-    title: string,
-    opacity?: number,
-    isOverlay?: boolean,
-    checked?: boolean
+    opacity?: number
 }
 
 function initCanvas(canvas: HTMLCanvasElement): void {
@@ -70,16 +66,14 @@ abstract class CanvasTileLayer extends MapLayer {
         leafletElement._reset();
         leafletElement._update();
 
-        if (!this.props.isOverlay || this.props.checked) {
-            forEach(leafletElement._tiles, canvas => {
-                const tile: Tile = {
-                    ...canvas._tilePoint,
-                    zoom: this.context.map.getZoom()
-                };
+        forEach(leafletElement._tiles, canvas => {
+            const tile: Tile = {
+                ...canvas._tilePoint,
+                zoom: this.context.map.getZoom()
+            };
 
-                this.drawTile(canvas, tile);
-            });
-        }
+            this.drawTile(canvas, tile);
+        });
     }
 }
 

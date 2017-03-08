@@ -54,12 +54,10 @@ var CanvasTileLayer = (function (_super) {
         var leafletElement = this.leafletElement;
         leafletElement._reset();
         leafletElement._update();
-        if (!this.props.isOverlay || this.props.checked) {
-            underscore_1.forEach(leafletElement._tiles, function (canvas) {
-                var tile = __assign({}, canvas._tilePoint, { zoom: _this.context.map.getZoom() });
-                _this.drawTile(canvas, tile);
-            });
-        }
+        underscore_1.forEach(leafletElement._tiles, function (canvas) {
+            var tile = __assign({}, canvas._tilePoint, { zoom: _this.context.map.getZoom() });
+            _this.drawTile(canvas, tile);
+        });
     };
     return CanvasTileLayer;
 }(map_layer_1.MapLayer));

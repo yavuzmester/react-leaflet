@@ -4,12 +4,8 @@ import {TileLayer as LeafletTileLayer} from 'leaflet';
 import {omit} from "underscore";
 
 interface TileLayerProps {
-    name: string,
-    title: string,
     url: string,
-    opacity?: number,
-    isBaseLayer?: boolean,
-    checked?: boolean
+    opacity?: number
 }
 
 class TileLayer extends MapLayer {

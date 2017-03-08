@@ -8,14 +8,10 @@ import {
 } from "leaflet";
 
 interface MarkerClusterLayerProps {
-    name: string,
-    title: string,
     data: Array<{
         lat: number,
         lng: number
-    } & any>,
-    isOverlay?: boolean,
-    checked?: boolean
+    } & any>
 }
 
 const markerIcon: LeafletIcon = new LeafletIcon({

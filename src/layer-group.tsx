@@ -8,19 +8,12 @@ import {
     ILayer as LeafletILayer
 } from "leaflet";
 
-interface LayerGroupProps {
-    name?: string,
-    title?: string,
-    isOverlay?: boolean,
-    checked?: boolean
-}
-
 interface LayerGroupChildContext {
     layerGroup: LeafletLayerGroup<LeafletILayer> | undefined
 }
 
 class LayerGroup extends MapLayer {
-    props: LayerGroupProps & {children?: any};
+    props: {children?: any};
     leafletElement: LeafletLayerGroup<LeafletILayer> | undefined;
 
     static propTypes = {

@@ -9,11 +9,6 @@ interface ImageOverlayProps {
     url: string,
     attribution?: string,
     opacity?: number
-    name?: string,
-    title?: string,
-    isBaseLayer?: boolean,
-    isOverlay?: boolean,
-    checked?: boolean
 }
 
 class ImageOverlay extends MapLayer {
