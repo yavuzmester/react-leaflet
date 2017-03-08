@@ -3,7 +3,6 @@ import {MapControl} from './map-control';
 import * as React from 'react';
 
 import {
-    Map as LeafletMap,
     Control as LeafletControl,
     LayerGroup as LeafletLayerGroup,
     ILayer as LeafletILayer
