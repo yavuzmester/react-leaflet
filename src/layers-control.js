@@ -14,17 +14,33 @@ var map_control_1 = require("./map-control");
 var leaflet_1 = require("leaflet");
 var underscore_1 = require("underscore");
 var autobind = require("autobind-decorator");
+/**
+ * use with key so that whenever props are changed the layers control is unmounted and remounted
+ */
 var LayersControl = (function (_super) {
     __extends(LayersControl, _super);
     function LayersControl() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     LayersControl.prototype.initLeafletElement = function () {
-        this.leafletElement = new leaflet_1.Control.Layers(undefined, undefined, { position: this.props.position });
-    };
-    LayersControl.prototype.componentWillMount = function () {
-        _super.prototype.componentWillMount.call(this);
-        this._updateLayers();
+        var _this = this;
+        var baseLayers = this.props.baseLayers.reduce(function (memo, b) {
+            var dummyBaseLayer = new leaflet_1.LayerGroup();
+            if (b.name === _this.props.checkedBaseLayer) {
+                _this.context.map.addLayer(dummyBaseLayer);
+            }
+            memo[b.title] = dummyBaseLayer;
+            return memo;
+        }, {});
+        var overlays = this.props.overlays.reduce(function (memo, o) {
+            var dummyOverlay = new leaflet_1.LayerGroup();
+            if (o.checked) {
+                _this.context.map.addLayer(dummyOverlay);
+            }
+            memo[o.title] = dummyOverlay;
+            return memo;
+        }, {});
+        this.leafletElement = new leaflet_1.Control.Layers(baseLayers, overlays, { position: this.props.position });
     };
     LayersControl.prototype.render = function () {
         return null;
@@ -59,10 +75,6 @@ var LayersControl = (function (_super) {
     LayersControl.prototype._getOverlayName = function (title) {
         return (this.props.overlays.find(function (b) { return b.title === title; }) || { name: undefined }).name;
     };
-    LayersControl.prototype.componentDidUpdate = function (prevProps) {
-        _super.prototype.componentDidUpdate.call(this, prevProps);
-        this._updateLayers();
-    };
     LayersControl.prototype.componentWillUnmount = function () {
         _super.prototype.componentWillUnmount.call(this);
         this._removeLayers();
@@ -70,40 +82,12 @@ var LayersControl = (function (_super) {
         this.context.map.removeEventListener("overlayadd", this.onOverlayAdd);
         this.context.map.removeEventListener("overlayremove", this.onOverlayRemove);
     };
-    LayersControl.prototype._updateLayers = function () {
-        var _this = this;
-        this._removeLayers();
-        var baseLayers = this.props.baseLayers.reduce(function (memo, b) {
-            var dummyBaseLayer = new leaflet_1.LayerGroup();
-            if (b.name === _this.props.checkedBaseLayer) {
-                _this.context.map.addLayer(dummyBaseLayer);
-            }
-            memo[b.title] = dummyBaseLayer;
-            return memo;
-        }, {});
-        var overlays = this.props.overlays.reduce(function (memo, o) {
-            var dummyOverlay = new leaflet_1.LayerGroup();
-            if (o.checked) {
-                _this.context.map.addLayer(dummyOverlay);
-            }
-            memo[o.title] = dummyOverlay;
-            return memo;
-        }, {});
-        var layersControl = this.leafletElement;
-        underscore_1.forEach(baseLayers, function (baseLayer, name) {
-            layersControl.addBaseLayer(baseLayer, name);
-        });
-        underscore_1.forEach(overlays, function (overlay, name) {
-            layersControl.addOverlay(overlay, name);
-        });
-    };
     LayersControl.prototype._removeLayers = function () {
         var _this = this;
         var layersControl = this.leafletElement;
         underscore_1.forEach(layersControl._layers, function (l) {
             _this.context.map.removeLayer(l.layer); //l.layer is insane here, but that is how Leaflet is!
         });
-        layersControl._update();
     };
     return LayersControl;
 }(map_control_1.MapControl));

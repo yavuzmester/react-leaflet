@@ -24,21 +24,43 @@ interface LayersControlProps {
     onOverlayRemove?: (name: string) => any
 }
 
+/**
+ * use with key so that whenever props are changed the layers control is unmounted and remounted
+ */
 class LayersControl extends MapControl {
     props: LayersControlProps;
     leafletElement: LayersControlPatched | undefined;
 
     initLeafletElement() {
+        const baseLayers: {[key: string]: LeafletLayerGroup<LeafletILayer>} = this.props.baseLayers.reduce((memo, b) => {
+            const dummyBaseLayer: LeafletLayerGroup<LeafletILayer> = new LeafletLayerGroup();
+
+            if (b.name === this.props.checkedBaseLayer) {
+                this.context.map.addLayer(dummyBaseLayer);
+            }
+
+            memo[b.title] = dummyBaseLayer;
+
+            return memo;
+        }, {});
+
+        const overlays: {[key: string]: LeafletLayerGroup<LeafletILayer>} = this.props.overlays.reduce((memo, o) => {
+            const dummyOverlay: LeafletLayerGroup<LeafletILayer> = new LeafletLayerGroup();
+
+            if (o.checked) {
+                this.context.map.addLayer(dummyOverlay);
+            }
+
+            memo[o.title] = dummyOverlay;
+
+            return memo;
+        }, {});
+
         this.leafletElement = new LeafletControl.Layers(
-            undefined,
-            undefined,
+            baseLayers,
+            overlays,
             {position: this.props.position}
         ) as LayersControlPatched;
-    }
-
-    componentWillMount() {
-        super.componentWillMount();
-        this._updateLayers();
     }
 
     render() {
@@ -91,11 +113,6 @@ class LayersControl extends MapControl {
         return (this.props.overlays.find(b => b.title === title) || {name: undefined}).name;
     }
 
-    componentDidUpdate(prevProps: LayersControlProps) {
-        super.componentDidUpdate(prevProps);
-        this._updateLayers();
-    }
-
     componentWillUnmount() {
         super.componentWillUnmount();
 
@@ -106,52 +123,12 @@ class LayersControl extends MapControl {
         this.context.map.removeEventListener("overlayremove", this.onOverlayRemove);
     }
 
-    _updateLayers() {
-        this._removeLayers();
-
-        const baseLayers: {[key: string]: LeafletLayerGroup<LeafletILayer>} = this.props.baseLayers.reduce((memo, b) => {
-            const dummyBaseLayer: LeafletLayerGroup<LeafletILayer> = new LeafletLayerGroup();
-
-            if (b.name === this.props.checkedBaseLayer) {
-                this.context.map.addLayer(dummyBaseLayer);
-            }
-
-            memo[b.title] = dummyBaseLayer;
-
-            return memo;
-        }, {});
-
-        const overlays: {[key: string]: LeafletLayerGroup<LeafletILayer>} = this.props.overlays.reduce((memo, o) => {
-            const dummyOverlay: LeafletLayerGroup<LeafletILayer> = new LeafletLayerGroup();
-
-            if (o.checked) {
-                this.context.map.addLayer(dummyOverlay);
-            }
-
-            memo[o.title] = dummyOverlay;
-
-            return memo;
-        }, {});
-
-        const layersControl: LayersControlPatched = this.leafletElement as LayersControlPatched;
-
-        forEach(baseLayers, (baseLayer: LeafletILayer, name: string) => {
-            layersControl.addBaseLayer(baseLayer, name);
-        });
-
-        forEach(overlays, (overlay: LeafletILayer, name: string) => {
-            layersControl.addOverlay(overlay, name);
-        });
-    }
-
     _removeLayers() {
         const layersControl: LayersControlPatched = this.leafletElement as LayersControlPatched;
 
         forEach(layersControl._layers, (l: any) => {
             this.context.map.removeLayer(l.layer);  //l.layer is insane here, but that is how Leaflet is!
         });
-
-        layersControl._update();
     }
 }
 
