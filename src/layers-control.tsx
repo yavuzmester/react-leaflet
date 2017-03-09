@@ -27,8 +27,13 @@ class LayersControl extends MapControl {
     leafletElement: LeafletControl.Layers | undefined;
     _layerGroup: LeafletLayerGroup<LeafletILayer> | undefined;
 
+    componentWillMount() {
+        this._layerGroup = new LeafletLayerGroup();
+        super.componentWillMount();
+    }
+
     initLeafletElement() {
-        const layerGroup: LeafletLayerGroup<LeafletILayer> = new LeafletLayerGroup();
+        const layerGroup: LeafletLayerGroup<LeafletILayer> = this._layerGroup as LeafletLayerGroup<LeafletILayer>;
 
         const baseLayers: {[key: string]: LeafletLayerGroup<LeafletILayer>} = this.props.baseLayers.reduce((memo, b) => {
             const dummyBaseLayer: LeafletLayerGroup<LeafletILayer> = new LeafletLayerGroup();
@@ -54,15 +59,13 @@ class LayersControl extends MapControl {
             return memo;
         }, {});
 
-        this.context.map.addLayer(layerGroup);
-
-        this._layerGroup = layerGroup;
-
         this.leafletElement = new LeafletControl.Layers(
             baseLayers,
             overlays,
             {position: this.props.position}
         );
+
+        this.context.map.addLayer(layerGroup);
     }
 
     render() {
@@ -122,14 +125,14 @@ class LayersControl extends MapControl {
     }
 
     componentWillUnmount() {
-        this.context.map.removeLayer(this._layerGroup as LeafletLayerGroup<LeafletILayer>);
-        this._layerGroup = undefined;
-
         this.context.map.removeEventListener("baselayerchange", this.onBaseLayerChange);
         this.context.map.removeEventListener("overlayadd", this.onOverlayAdd);
         this.context.map.removeEventListener("overlayremove", this.onOverlayRemove);
 
         super.componentWillUnmount();
+
+        this.context.map.removeLayer(this._layerGroup as LeafletLayerGroup<LeafletILayer>);
+        this._layerGroup = undefined;
     }
 }
 

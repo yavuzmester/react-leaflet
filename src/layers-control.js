@@ -18,9 +18,13 @@ var LayersControl = (function (_super) {
     function LayersControl() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
+    LayersControl.prototype.componentWillMount = function () {
+        this._layerGroup = new leaflet_1.LayerGroup();
+        _super.prototype.componentWillMount.call(this);
+    };
     LayersControl.prototype.initLeafletElement = function () {
         var _this = this;
-        var layerGroup = new leaflet_1.LayerGroup();
+        var layerGroup = this._layerGroup;
         var baseLayers = this.props.baseLayers.reduce(function (memo, b) {
             var dummyBaseLayer = new leaflet_1.LayerGroup();
             if (b.name === _this.props.checkedBaseLayer) {
@@ -37,9 +41,8 @@ var LayersControl = (function (_super) {
             memo[o.title] = dummyOverlay;
             return memo;
         }, {});
-        this.context.map.addLayer(layerGroup);
-        this._layerGroup = layerGroup;
         this.leafletElement = new leaflet_1.Control.Layers(baseLayers, overlays, { position: this.props.position });
+        this.context.map.addLayer(layerGroup);
     };
     LayersControl.prototype.render = function () {
         return null;
@@ -80,12 +83,12 @@ var LayersControl = (function (_super) {
         _super.prototype.componentDidMount.call(this);
     };
     LayersControl.prototype.componentWillUnmount = function () {
-        this.context.map.removeLayer(this._layerGroup);
-        this._layerGroup = undefined;
         this.context.map.removeEventListener("baselayerchange", this.onBaseLayerChange);
         this.context.map.removeEventListener("overlayadd", this.onOverlayAdd);
         this.context.map.removeEventListener("overlayremove", this.onOverlayRemove);
         _super.prototype.componentWillUnmount.call(this);
+        this.context.map.removeLayer(this._layerGroup);
+        this._layerGroup = undefined;
     };
     return LayersControl;
 }(map_control_1.MapControl));
