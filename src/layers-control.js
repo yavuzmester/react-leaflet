@@ -19,8 +19,8 @@ var LayersControl = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     LayersControl.prototype.componentWillMount = function () {
-        _super.prototype.componentWillMount.call(this);
         this._layers = [];
+        _super.prototype.componentWillMount.call(this);
     };
     LayersControl.prototype.initLeafletElement = function () {
         var _this = this;

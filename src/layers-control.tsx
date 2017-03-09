@@ -28,8 +28,8 @@ class LayersControl extends MapControl {
     _layers: Array<LeafletLayerGroup<LeafletILayer>>;
 
     componentWillMount() {
-        super.componentWillMount();
         this._layers = [];
+        super.componentWillMount();
     }
 
     initLeafletElement() {
