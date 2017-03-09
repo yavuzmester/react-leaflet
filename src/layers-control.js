@@ -19,16 +19,16 @@ var LayersControl = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     LayersControl.prototype.componentWillMount = function () {
-        this._layerGroup = new leaflet_1.LayerGroup();
         _super.prototype.componentWillMount.call(this);
+        this._layers = [];
     };
     LayersControl.prototype.initLeafletElement = function () {
         var _this = this;
-        var layerGroup = this._layerGroup;
         var baseLayers = this.props.baseLayers.reduce(function (memo, b) {
             var dummyBaseLayer = new leaflet_1.LayerGroup();
             if (b.name === _this.props.checkedBaseLayer) {
-                layerGroup.addLayer(dummyBaseLayer);
+                _this.context.map.addLayer(dummyBaseLayer);
+                _this._layers.push(dummyBaseLayer);
             }
             memo[b.title] = dummyBaseLayer;
             return memo;
@@ -36,13 +36,13 @@ var LayersControl = (function (_super) {
         var overlays = this.props.overlays.reduce(function (memo, o) {
             var dummyOverlay = new leaflet_1.LayerGroup();
             if (o.checked) {
-                layerGroup.addLayer(dummyOverlay);
+                _this.context.map.addLayer(dummyOverlay);
+                _this._layers.push(dummyOverlay);
             }
             memo[o.title] = dummyOverlay;
             return memo;
         }, {});
         this.leafletElement = new leaflet_1.Control.Layers(baseLayers, overlays, { position: this.props.position });
-        this.context.map.addLayer(layerGroup);
     };
     LayersControl.prototype.render = function () {
         return null;
@@ -86,12 +86,13 @@ var LayersControl = (function (_super) {
         _super.prototype.componentDidMount.call(this);
     };
     LayersControl.prototype.componentWillUnmount = function () {
+        var _this = this;
         this.context.map.removeEventListener("baselayerchange", this.onBaseLayerChange);
         this.context.map.removeEventListener("overlayadd", this.onOverlayAdd);
         this.context.map.removeEventListener("overlayremove", this.onOverlayRemove);
+        this._layers.forEach(function (layer) { return _this.context.map.removeLayer(layer); });
+        this._layers = [];
         _super.prototype.componentWillUnmount.call(this);
-        this.context.map.removeLayer(this._layerGroup);
-        this._layerGroup = undefined;
     };
     return LayersControl;
 }(map_control_1.MapControl));

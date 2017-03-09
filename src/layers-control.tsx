@@ -25,21 +25,20 @@ interface LayersControlProps {
 class LayersControl extends MapControl {
     props: LayersControlProps;
     leafletElement: LeafletControl.Layers | undefined;
-    _layerGroup: LeafletLayerGroup<LeafletILayer> | undefined;
+    _layers: Array<LeafletLayerGroup<LeafletILayer>>;
 
     componentWillMount() {
-        this._layerGroup = new LeafletLayerGroup();
         super.componentWillMount();
+        this._layers = [];
     }
 
     initLeafletElement() {
-        const layerGroup: LeafletLayerGroup<LeafletILayer> = this._layerGroup as LeafletLayerGroup<LeafletILayer>;
-
         const baseLayers: {[key: string]: LeafletLayerGroup<LeafletILayer>} = this.props.baseLayers.reduce((memo, b) => {
             const dummyBaseLayer: LeafletLayerGroup<LeafletILayer> = new LeafletLayerGroup();
 
             if (b.name === this.props.checkedBaseLayer) {
-                layerGroup.addLayer(dummyBaseLayer);
+                this.context.map.addLayer(dummyBaseLayer);
+                this._layers.push(dummyBaseLayer);
             }
 
             memo[b.title] = dummyBaseLayer;
@@ -51,7 +50,8 @@ class LayersControl extends MapControl {
             const dummyOverlay: LeafletLayerGroup<LeafletILayer> = new LeafletLayerGroup();
 
             if (o.checked) {
-                layerGroup.addLayer(dummyOverlay);
+                this.context.map.addLayer(dummyOverlay);
+                this._layers.push(dummyOverlay);
             }
 
             memo[o.title] = dummyOverlay;
@@ -64,8 +64,6 @@ class LayersControl extends MapControl {
             overlays,
             {position: this.props.position}
         );
-
-        this.context.map.addLayer(layerGroup);
     }
 
     render() {
@@ -135,10 +133,10 @@ class LayersControl extends MapControl {
         this.context.map.removeEventListener("overlayadd", this.onOverlayAdd);
         this.context.map.removeEventListener("overlayremove", this.onOverlayRemove);
 
-        super.componentWillUnmount();
+        this._layers.forEach((layer: LeafletILayer) => this.context.map.removeLayer(layer));
+        this._layers = [];
 
-        this.context.map.removeLayer(this._layerGroup as LeafletLayerGroup<LeafletILayer>);
-        this._layerGroup = undefined;
+        super.componentWillUnmount();
     }
 }
 
