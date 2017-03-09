@@ -100,8 +100,8 @@ var LayersControl = (function (_super) {
     LayersControl.prototype._removeLayers = function () {
         var _this = this;
         var layersControl = this.leafletElement;
-        underscore_1.forEach(layersControl._layers, function (layer) {
-            _this.context.map.removeLayer(layer);
+        underscore_1.forEach(layersControl._layers, function (l) {
+            _this.context.map.removeLayer(l.layer); //l.layer is insane here, but that is how Leaflet is!
         });
         layersControl._update();
     };

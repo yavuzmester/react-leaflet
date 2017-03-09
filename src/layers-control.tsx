@@ -147,8 +147,8 @@ class LayersControl extends MapControl {
     _removeLayers() {
         const layersControl: LayersControlPatched = this.leafletElement as LayersControlPatched;
 
-        forEach(layersControl._layers, (layer: LeafletILayer) => {
-            this.context.map.removeLayer(layer);
+        forEach(layersControl._layers, (l: any) => {
+            this.context.map.removeLayer(l.layer);  //l.layer is insane here, but that is how Leaflet is!
         });
 
         layersControl._update();
