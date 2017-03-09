@@ -101,9 +101,9 @@ var LayersControl = (function (_super) {
         var _this = this;
         var layersControl = this.leafletElement;
         underscore_1.forEach(layersControl._layers, function (layer) {
-            layersControl.removeLayer(layer);
             _this.context.map.removeLayer(layer);
         });
+        layersControl._update();
     };
     return LayersControl;
 }(map_control_1.MapControl));

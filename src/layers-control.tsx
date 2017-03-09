@@ -8,7 +8,7 @@ import {
     ILayer as LeafletILayer
 } from "leaflet";
 
-type LayersControlPatched = LeafletControl.Layers & {_layers: any};
+type LayersControlPatched = LeafletControl.Layers & {_layers: any, _update: () => void};
 
 import {omit, forEach} from "underscore";
 
@@ -148,9 +148,10 @@ class LayersControl extends MapControl {
         const layersControl: LayersControlPatched = this.leafletElement as LayersControlPatched;
 
         forEach(layersControl._layers, (layer: LeafletILayer) => {
-            layersControl.removeLayer(layer);
             this.context.map.removeLayer(layer);
         });
+
+        layersControl._update();
     }
 }
 
