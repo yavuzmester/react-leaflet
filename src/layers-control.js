@@ -12,37 +12,19 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 var map_control_1 = require("./map-control");
 var leaflet_1 = require("leaflet");
+var underscore_1 = require("underscore");
 var autobind = require("autobind-decorator");
 var LayersControl = (function (_super) {
     __extends(LayersControl, _super);
     function LayersControl() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    LayersControl.prototype.componentWillMount = function () {
-        this._layers = [];
-        _super.prototype.componentWillMount.call(this);
-    };
     LayersControl.prototype.initLeafletElement = function () {
-        var _this = this;
-        var baseLayers = this.props.baseLayers.reduce(function (memo, b) {
-            var dummyBaseLayer = new leaflet_1.LayerGroup();
-            if (b.name === _this.props.checkedBaseLayer) {
-                _this.context.map.addLayer(dummyBaseLayer);
-                _this._layers.push(dummyBaseLayer);
-            }
-            memo[b.title] = dummyBaseLayer;
-            return memo;
-        }, {});
-        var overlays = this.props.overlays.reduce(function (memo, o) {
-            var dummyOverlay = new leaflet_1.LayerGroup();
-            if (o.checked) {
-                _this.context.map.addLayer(dummyOverlay);
-                _this._layers.push(dummyOverlay);
-            }
-            memo[o.title] = dummyOverlay;
-            return memo;
-        }, {});
-        this.leafletElement = new leaflet_1.Control.Layers(baseLayers, overlays, { position: this.props.position });
+        this.leafletElement = new leaflet_1.Control.Layers(undefined, undefined, { position: this.props.position });
+    };
+    LayersControl.prototype.componentWillMount = function () {
+        _super.prototype.componentWillMount.call(this);
+        this._updateLayers();
     };
     LayersControl.prototype.render = function () {
         return null;
@@ -78,19 +60,48 @@ var LayersControl = (function (_super) {
         return (this.props.overlays.find(function (b) { return b.title === title; }) || { name: undefined }).name;
     };
     LayersControl.prototype.componentDidUpdate = function (prevProps) {
-        this.componentWillUnmount();
-        this.componentWillMount();
-        this.componentDidMount();
         _super.prototype.componentDidUpdate.call(this, prevProps);
+        this._updateLayers();
     };
     LayersControl.prototype.componentWillUnmount = function () {
-        var _this = this;
         _super.prototype.componentWillUnmount.call(this);
-        this._layers.forEach(function (layer) { return _this.context.map.removeLayer(layer); });
-        this._layers = [];
+        this._removeLayers();
         this.context.map.removeEventListener("baselayerchange", this.onBaseLayerChange);
         this.context.map.removeEventListener("overlayadd", this.onOverlayAdd);
         this.context.map.removeEventListener("overlayremove", this.onOverlayRemove);
+    };
+    LayersControl.prototype._updateLayers = function () {
+        var _this = this;
+        this._removeLayers();
+        var baseLayers = this.props.baseLayers.reduce(function (memo, b) {
+            var dummyBaseLayer = new leaflet_1.LayerGroup();
+            if (b.name === _this.props.checkedBaseLayer) {
+                _this.context.map.addLayer(dummyBaseLayer);
+            }
+            memo[b.title] = dummyBaseLayer;
+            return memo;
+        }, {});
+        var overlays = this.props.overlays.reduce(function (memo, o) {
+            var dummyOverlay = new leaflet_1.LayerGroup();
+            if (o.checked) {
+                _this.context.map.addLayer(dummyOverlay);
+            }
+            memo[o.title] = dummyOverlay;
+            return memo;
+        }, {});
+        var layersControl = this.leafletElement;
+        underscore_1.forEach(baseLayers, function (baseLayer, name) {
+            layersControl.addBaseLayer(baseLayer, name);
+        });
+        underscore_1.forEach(overlays, function (overlay, name) {
+            layersControl.addOverlay(overlay, name);
+        });
+    };
+    LayersControl.prototype._removeLayers = function () {
+        var layersControl = this.leafletElement;
+        underscore_1.forEach(layersControl._layers, function (layer) {
+            layersControl.removeLayer(layer);
+        });
     };
     return LayersControl;
 }(map_control_1.MapControl));
