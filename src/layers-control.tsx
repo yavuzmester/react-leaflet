@@ -82,6 +82,8 @@ class LayersControl extends MapControl {
 
     @autobind
     onBaseLayerChange(e: any) {
+        e.preventDefault();
+
         if (this.props.onBaseLayerChange) {
             const baseLayerTitle: string = e.name,
                 baseLayerName: string = this._getBaseLayerName(baseLayerTitle) as string;
@@ -92,6 +94,8 @@ class LayersControl extends MapControl {
 
     @autobind
     onOverlayAdd(e: any) {
+        e.preventDefault();
+
         if (this.props.onOverlayAdd) {
             const overlayTitle: string = e.name,
                 overlayName: string = this._getOverlayName(overlayTitle) as string;
@@ -102,6 +106,8 @@ class LayersControl extends MapControl {
 
     @autobind
     onOverlayRemove(e: any) {
+        e.preventDefault();
+
         if (this.props.onOverlayRemove) {
             const overlayTitle: string = e.name,
                 overlayName: string = this._getOverlayName(overlayTitle) as string;
