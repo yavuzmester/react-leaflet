@@ -54,21 +54,18 @@ var LayersControl = (function (_super) {
         this.context.map.on("overlayremove", this.onOverlayRemove);
     };
     LayersControl.prototype.onBaseLayerChange = function (e) {
-        e.preventDefault();
         if (this.props.onBaseLayerChange) {
             var baseLayerTitle = e.name, baseLayerName = this._getBaseLayerName(baseLayerTitle);
             this.props.onBaseLayerChange(baseLayerName);
         }
     };
     LayersControl.prototype.onOverlayAdd = function (e) {
-        e.preventDefault();
         if (this.props.onOverlayAdd) {
             var overlayTitle = e.name, overlayName = this._getOverlayName(overlayTitle);
             this.props.onOverlayAdd(overlayName);
         }
     };
     LayersControl.prototype.onOverlayRemove = function (e) {
-        e.preventDefault();
         if (this.props.onOverlayRemove) {
             var overlayTitle = e.name, overlayName = this._getOverlayName(overlayTitle);
             this.props.onOverlayRemove(overlayName);
