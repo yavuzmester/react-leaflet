@@ -6,7 +6,8 @@
         "target": "es5",
         "jsx": "react",
         "skipLibCheck": true,
-        "strictNullChecks": true
+        "strictNullChecks": true,
+        "experimentalDecorators": true
     },
     "include": [
         "src/**/*"

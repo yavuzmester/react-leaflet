@@ -10,14 +10,16 @@ import {
 
 import {omit} from "underscore";
 
+import * as autobind from "autobind-decorator";
+
 interface LayersControlProps {
     position: "topleft" | "topright" | "bottomleft" | "bottomright",
-    baseLayers: Array<{title: string}>,
+    baseLayers: Array<{name: string, title: string}>,
     checkedBaseLayer: string,
-    overlays: Array<{title: string, checked: boolean}>,
-    onOverlayAdd?: (title: string) => any,
-    onOverlayRemove?: (title: string) => any,
-    onBaseLayerChange?: (title: string) => any
+    overlays: Array<{name: string, title: string, checked: boolean}>,
+    onBaseLayerChange?: (name: string) => any,
+    onOverlayAdd?: (name: string) => any,
+    onOverlayRemove?: (name: string) => any
 }
 
 class LayersControl extends MapControl {
@@ -25,10 +27,10 @@ class LayersControl extends MapControl {
     leafletElement: LeafletControl.Layers | undefined;
 
     initLeafletElement() {
-        const baseLayers = this.props.baseLayers.reduce((memo, b) => {
+        const baseLayers: {[key: string]: LeafletLayerGroup<LeafletILayer>} = this.props.baseLayers.reduce((memo, b) => {
             const layerGroup: LeafletLayerGroup<LeafletILayer> = new LeafletLayerGroup();
 
-            if (b.title === this.props.checkedBaseLayer) {
+            if (b.name === this.props.checkedBaseLayer) {
                 layerGroup.addTo(this.context.map);
             }
 
@@ -37,7 +39,7 @@ class LayersControl extends MapControl {
             return memo;
         }, {});
 
-        const overlays = this.props.overlays.reduce((memo, o) => {
+        const overlays: {[key: string]: LeafletLayerGroup<LeafletILayer>} = this.props.overlays.reduce((memo, o) => {
             const layerGroup: LeafletLayerGroup<LeafletILayer> = new LeafletLayerGroup();
 
             if (o.checked) {
@@ -63,6 +65,10 @@ class LayersControl extends MapControl {
     componentDidMount() {
         super.componentDidMount();
 
+        if (this.props.onBaseLayerChange) {
+            this.context.map.on("baselayerchange", this.props.onBaseLayerChange);
+        }
+
         if (this.props.onOverlayAdd) {
             this.context.map.on("overlayadd", this.props.onOverlayAdd);
         }
@@ -70,10 +76,44 @@ class LayersControl extends MapControl {
         if (this.props.onOverlayRemove) {
             this.context.map.on("overlayremove", this.props.onOverlayRemove);
         }
+    }
+
+    @autobind
+    onBaseLayerChange(e: any) {
+        const baseLayerTitle: string = e.name,
+            baseLayerName: string = this._getBaseLayerName(baseLayerTitle) as string;
 
         if (this.props.onBaseLayerChange) {
-            this.context.map.on("baselayerchange", this.props.onBaseLayerChange);
+            this.props.onBaseLayerChange(baseLayerName);
         }
+    }
+
+    @autobind
+    onOverlayAdd(e: any) {
+        const overlayTitle: string = e.name,
+            overlayName: string = this._getOverlayName(overlayTitle) as string;
+
+        if (this.props.onOverlayAdd) {
+            this.props.onOverlayAdd(overlayName);
+        }
+    }
+
+    @autobind
+    onOverlayRemove(e: any) {
+        const overlayTitle: string = e.name,
+            overlayName: string = this._getOverlayName(overlayTitle) as string;
+
+        if (this.props.onOverlayRemove) {
+            this.props.onOverlayRemove(overlayName);
+        }
+    }
+
+    _getBaseLayerName(title: string): string | undefined {
+        return (this.props.baseLayers.find(b => b.title === title) || {name: undefined}).name;
+    }
+
+    _getOverlayName(title: string): string | undefined {
+        return (this.props.overlays.find(b => b.title === title) || {name: undefined}).name;
     }
 
     componentDidUpdate() {
@@ -85,16 +125,16 @@ class LayersControl extends MapControl {
     componentWillUnmount() {
         super.componentWillUnmount();
 
+        if (this.props.onBaseLayerChange) {
+            this.context.map.removeEventListener("baselayerchange", this.props.onBaseLayerChange);
+        }
+
         if (this.props.onOverlayAdd) {
             this.context.map.removeEventListener("overlayadd", this.props.onOverlayAdd);
         }
 
         if (this.props.onOverlayRemove) {
             this.context.map.removeEventListener("overlayremove", this.props.onOverlayRemove);
-        }
-
-        if (this.props.onBaseLayerChange) {
-            this.context.map.removeEventListener("baselayerchange", this.props.onBaseLayerChange);
         }
     }
 }
