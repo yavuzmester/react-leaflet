@@ -25,31 +25,38 @@ interface LayersControlProps {
 class LayersControl extends MapControl {
     props: LayersControlProps;
     leafletElement: LeafletControl.Layers | undefined;
+    _layerGroup: LeafletLayerGroup<LeafletILayer> | undefined;
 
     initLeafletElement() {
+        const layerGroup: LeafletLayerGroup<LeafletILayer> = new LeafletLayerGroup();
+
         const baseLayers: {[key: string]: LeafletLayerGroup<LeafletILayer>} = this.props.baseLayers.reduce((memo, b) => {
-            const layerGroup: LeafletLayerGroup<LeafletILayer> = new LeafletLayerGroup();
+            const dummyBaseLayer: LeafletLayerGroup<LeafletILayer> = new LeafletLayerGroup();
 
             if (b.name === this.props.checkedBaseLayer) {
-                layerGroup.addTo(this.context.map);
+                layerGroup.addLayer(dummyBaseLayer);
             }
 
-            memo[b.title] = layerGroup;
+            memo[b.title] = dummyBaseLayer;
 
             return memo;
         }, {});
 
         const overlays: {[key: string]: LeafletLayerGroup<LeafletILayer>} = this.props.overlays.reduce((memo, o) => {
-            const layerGroup: LeafletLayerGroup<LeafletILayer> = new LeafletLayerGroup();
+            const dummyOverlay: LeafletLayerGroup<LeafletILayer> = new LeafletLayerGroup();
 
             if (o.checked) {
-                layerGroup.addTo(this.context.map);
+                layerGroup.addLayer(dummyOverlay);
             }
 
-            memo[o.title] = layerGroup;
+            memo[o.title] = dummyOverlay;
 
             return memo;
         }, {});
+
+        this.context.map.addLayer(layerGroup);
+
+        this._layerGroup = layerGroup;
 
         this.leafletElement = new LeafletControl.Layers(
             baseLayers,
@@ -116,6 +123,9 @@ class LayersControl extends MapControl {
 
     componentWillUnmount() {
         super.componentWillUnmount();
+
+        this.context.map.removeLayer(this._layerGroup as LeafletLayerGroup<LeafletILayer>);
+        this._layerGroup = undefined;
 
         this.context.map.removeEventListener("baselayerchange", this.onBaseLayerChange);
         this.context.map.removeEventListener("overlayadd", this.onOverlayAdd);
