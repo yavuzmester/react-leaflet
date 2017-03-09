@@ -65,45 +65,37 @@ class LayersControl extends MapControl {
     componentDidMount() {
         super.componentDidMount();
 
-        if (this.props.onBaseLayerChange) {
-            this.context.map.on("baselayerchange", this.props.onBaseLayerChange);
-        }
-
-        if (this.props.onOverlayAdd) {
-            this.context.map.on("overlayadd", this.props.onOverlayAdd);
-        }
-
-        if (this.props.onOverlayRemove) {
-            this.context.map.on("overlayremove", this.props.onOverlayRemove);
-        }
+        this.context.map.on("baselayerchange", this.onBaseLayerChange);
+        this.context.map.on("overlayadd", this.onOverlayAdd);
+        this.context.map.on("overlayremove", this.onOverlayRemove);
     }
 
     @autobind
     onBaseLayerChange(e: any) {
-        const baseLayerTitle: string = e.name,
-            baseLayerName: string = this._getBaseLayerName(baseLayerTitle) as string;
-
         if (this.props.onBaseLayerChange) {
+            const baseLayerTitle: string = e.name,
+                baseLayerName: string = this._getBaseLayerName(baseLayerTitle) as string;
+
             this.props.onBaseLayerChange(baseLayerName);
         }
     }
 
     @autobind
     onOverlayAdd(e: any) {
-        const overlayTitle: string = e.name,
-            overlayName: string = this._getOverlayName(overlayTitle) as string;
-
         if (this.props.onOverlayAdd) {
+            const overlayTitle: string = e.name,
+                overlayName: string = this._getOverlayName(overlayTitle) as string;
+
             this.props.onOverlayAdd(overlayName);
         }
     }
 
     @autobind
     onOverlayRemove(e: any) {
-        const overlayTitle: string = e.name,
-            overlayName: string = this._getOverlayName(overlayTitle) as string;
-
         if (this.props.onOverlayRemove) {
+            const overlayTitle: string = e.name,
+                overlayName: string = this._getOverlayName(overlayTitle) as string;
+
             this.props.onOverlayRemove(overlayName);
         }
     }
@@ -125,17 +117,9 @@ class LayersControl extends MapControl {
     componentWillUnmount() {
         super.componentWillUnmount();
 
-        if (this.props.onBaseLayerChange) {
-            this.context.map.removeEventListener("baselayerchange", this.props.onBaseLayerChange);
-        }
-
-        if (this.props.onOverlayAdd) {
-            this.context.map.removeEventListener("overlayadd", this.props.onOverlayAdd);
-        }
-
-        if (this.props.onOverlayRemove) {
-            this.context.map.removeEventListener("overlayremove", this.props.onOverlayRemove);
-        }
+        this.context.map.removeEventListener("baselayerchange", this.onBaseLayerChange);
+        this.context.map.removeEventListener("overlayadd", this.onOverlayAdd);
+        this.context.map.removeEventListener("overlayremove", this.onOverlayRemove);
     }
 }
 

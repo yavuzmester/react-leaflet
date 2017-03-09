@@ -43,31 +43,25 @@ var LayersControl = (function (_super) {
     };
     LayersControl.prototype.componentDidMount = function () {
         _super.prototype.componentDidMount.call(this);
-        if (this.props.onBaseLayerChange) {
-            this.context.map.on("baselayerchange", this.props.onBaseLayerChange);
-        }
-        if (this.props.onOverlayAdd) {
-            this.context.map.on("overlayadd", this.props.onOverlayAdd);
-        }
-        if (this.props.onOverlayRemove) {
-            this.context.map.on("overlayremove", this.props.onOverlayRemove);
-        }
+        this.context.map.on("baselayerchange", this.onBaseLayerChange);
+        this.context.map.on("overlayadd", this.onOverlayAdd);
+        this.context.map.on("overlayremove", this.onOverlayRemove);
     };
     LayersControl.prototype.onBaseLayerChange = function (e) {
-        var baseLayerTitle = e.name, baseLayerName = this._getBaseLayerName(baseLayerTitle);
         if (this.props.onBaseLayerChange) {
+            var baseLayerTitle = e.name, baseLayerName = this._getBaseLayerName(baseLayerTitle);
             this.props.onBaseLayerChange(baseLayerName);
         }
     };
     LayersControl.prototype.onOverlayAdd = function (e) {
-        var overlayTitle = e.name, overlayName = this._getOverlayName(overlayTitle);
         if (this.props.onOverlayAdd) {
+            var overlayTitle = e.name, overlayName = this._getOverlayName(overlayTitle);
             this.props.onOverlayAdd(overlayName);
         }
     };
     LayersControl.prototype.onOverlayRemove = function (e) {
-        var overlayTitle = e.name, overlayName = this._getOverlayName(overlayTitle);
         if (this.props.onOverlayRemove) {
+            var overlayTitle = e.name, overlayName = this._getOverlayName(overlayTitle);
             this.props.onOverlayRemove(overlayName);
         }
     };
@@ -84,15 +78,9 @@ var LayersControl = (function (_super) {
     };
     LayersControl.prototype.componentWillUnmount = function () {
         _super.prototype.componentWillUnmount.call(this);
-        if (this.props.onBaseLayerChange) {
-            this.context.map.removeEventListener("baselayerchange", this.props.onBaseLayerChange);
-        }
-        if (this.props.onOverlayAdd) {
-            this.context.map.removeEventListener("overlayadd", this.props.onOverlayAdd);
-        }
-        if (this.props.onOverlayRemove) {
-            this.context.map.removeEventListener("overlayremove", this.props.onOverlayRemove);
-        }
+        this.context.map.removeEventListener("baselayerchange", this.onBaseLayerChange);
+        this.context.map.removeEventListener("overlayadd", this.onOverlayAdd);
+        this.context.map.removeEventListener("overlayremove", this.onOverlayRemove);
     };
     return LayersControl;
 }(map_control_1.MapControl));
