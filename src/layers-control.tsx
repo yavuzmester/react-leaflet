@@ -122,10 +122,10 @@ class LayersControl extends MapControl {
     }
 
     componentWillUnmount() {
-        super.componentWillUnmount();
-
         this.context.map.removeLayer(this._layerGroup as LeafletLayerGroup<LeafletILayer>);
         this._layerGroup = undefined;
+
+        super.componentWillUnmount();
 
         this.context.map.removeEventListener("baselayerchange", this.onBaseLayerChange);
         this.context.map.removeEventListener("overlayadd", this.onOverlayAdd);
