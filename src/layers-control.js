@@ -82,10 +82,10 @@ var LayersControl = (function (_super) {
     LayersControl.prototype.componentWillUnmount = function () {
         this.context.map.removeLayer(this._layerGroup);
         this._layerGroup = undefined;
-        _super.prototype.componentWillUnmount.call(this);
         this.context.map.removeEventListener("baselayerchange", this.onBaseLayerChange);
         this.context.map.removeEventListener("overlayadd", this.onOverlayAdd);
         this.context.map.removeEventListener("overlayremove", this.onOverlayRemove);
+        _super.prototype.componentWillUnmount.call(this);
     };
     return LayersControl;
 }(map_control_1.MapControl));
