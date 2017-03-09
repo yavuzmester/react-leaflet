@@ -148,7 +148,8 @@ class LayersControl extends MapControl {
         const layersControl: LayersControlPatched = this.leafletElement as LayersControlPatched;
 
         forEach(layersControl._layers, (layer: LeafletILayer) => {
-            layersControl.removeLayer(layer)
+            layersControl.removeLayer(layer);
+            this.context.map.removeLayer(layer);
         });
     }
 }

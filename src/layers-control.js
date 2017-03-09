@@ -98,9 +98,11 @@ var LayersControl = (function (_super) {
         });
     };
     LayersControl.prototype._removeLayers = function () {
+        var _this = this;
         var layersControl = this.leafletElement;
         underscore_1.forEach(layersControl._layers, function (layer) {
             layersControl.removeLayer(layer);
+            _this.context.map.removeLayer(layer);
         });
     };
     return LayersControl;
