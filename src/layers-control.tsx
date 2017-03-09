@@ -25,7 +25,7 @@ interface LayersControlProps {
 class LayersControl extends MapControl {
     props: LayersControlProps;
     leafletElement: LeafletControl.Layers | undefined;
-    _layers: Array<LeafletLayerGroup<LeafletILayer>>;
+    _layers: LeafletILayer[] | undefined;
 
     componentWillMount() {
         this._layers = [];
@@ -38,7 +38,7 @@ class LayersControl extends MapControl {
 
             if (b.name === this.props.checkedBaseLayer) {
                 this.context.map.addLayer(dummyBaseLayer);
-                this._layers.push(dummyBaseLayer);
+                (this._layers as LeafletILayer[]).push(dummyBaseLayer);
             }
 
             memo[b.title] = dummyBaseLayer;
@@ -51,7 +51,7 @@ class LayersControl extends MapControl {
 
             if (o.checked) {
                 this.context.map.addLayer(dummyOverlay);
-                this._layers.push(dummyOverlay);
+                (this._layers as LeafletILayer[]).push(dummyOverlay);
             }
 
             memo[o.title] = dummyOverlay;
@@ -117,20 +117,20 @@ class LayersControl extends MapControl {
     }
 
     componentDidUpdate() {
-        super.componentWillUnmount();
-        super.componentWillMount();
-        super.componentDidMount();
+        this.componentWillUnmount();
+        this.componentWillMount();
+        this.componentDidMount();
     }
 
     componentWillUnmount() {
+        super.componentWillUnmount();
+
+        (this._layers as LeafletILayer[]).forEach((layer: LeafletILayer) => this.context.map.removeLayer(layer));
+        this._layers = [];
+
         this.context.map.removeEventListener("baselayerchange", this.onBaseLayerChange);
         this.context.map.removeEventListener("overlayadd", this.onOverlayAdd);
         this.context.map.removeEventListener("overlayremove", this.onOverlayRemove);
-
-        this._layers.forEach((layer: LeafletILayer) => this.context.map.removeLayer(layer));
-        this._layers = [];
-
-        super.componentWillUnmount();
     }
 }
 

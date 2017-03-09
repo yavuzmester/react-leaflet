@@ -78,18 +78,18 @@ var LayersControl = (function (_super) {
         return (this.props.overlays.find(function (b) { return b.title === title; }) || { name: undefined }).name;
     };
     LayersControl.prototype.componentDidUpdate = function () {
-        _super.prototype.componentWillUnmount.call(this);
-        _super.prototype.componentWillMount.call(this);
-        _super.prototype.componentDidMount.call(this);
+        this.componentWillUnmount();
+        this.componentWillMount();
+        this.componentDidMount();
     };
     LayersControl.prototype.componentWillUnmount = function () {
         var _this = this;
+        _super.prototype.componentWillUnmount.call(this);
+        this._layers.forEach(function (layer) { return _this.context.map.removeLayer(layer); });
+        this._layers = [];
         this.context.map.removeEventListener("baselayerchange", this.onBaseLayerChange);
         this.context.map.removeEventListener("overlayadd", this.onOverlayAdd);
         this.context.map.removeEventListener("overlayremove", this.onOverlayRemove);
-        this._layers.forEach(function (layer) { return _this.context.map.removeLayer(layer); });
-        this._layers = [];
-        _super.prototype.componentWillUnmount.call(this);
     };
     return LayersControl;
 }(map_control_1.MapControl));
