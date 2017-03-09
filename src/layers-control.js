@@ -77,10 +77,11 @@ var LayersControl = (function (_super) {
     LayersControl.prototype._getOverlayName = function (title) {
         return (this.props.overlays.find(function (b) { return b.title === title; }) || { name: undefined }).name;
     };
-    LayersControl.prototype.componentDidUpdate = function () {
+    LayersControl.prototype.componentDidUpdate = function (prevProps) {
         this.componentWillUnmount();
         this.componentWillMount();
         this.componentDidMount();
+        _super.prototype.componentDidUpdate.call(this, prevProps);
     };
     LayersControl.prototype.componentWillUnmount = function () {
         var _this = this;

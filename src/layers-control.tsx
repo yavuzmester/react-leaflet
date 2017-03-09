@@ -116,10 +116,11 @@ class LayersControl extends MapControl {
         return (this.props.overlays.find(b => b.title === title) || {name: undefined}).name;
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps: LayersControlProps) {
         this.componentWillUnmount();
         this.componentWillMount();
         this.componentDidMount();
+        super.componentDidUpdate(prevProps);
     }
 
     componentWillUnmount() {
