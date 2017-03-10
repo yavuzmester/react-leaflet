@@ -15,7 +15,7 @@ var leaflet_1 = require("leaflet");
 var underscore_1 = require("underscore");
 var autobind = require("autobind-decorator");
 /**
- * use with key so that whenever props are changed the layers control is unmounted and remounted
+ * when the layers are to be changed, unmount and remount the component via "key".
  */
 var LayersControl = (function (_super) {
     __extends(LayersControl, _super);

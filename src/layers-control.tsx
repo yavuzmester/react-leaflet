@@ -25,7 +25,7 @@ interface LayersControlProps {
 }
 
 /**
- * use with key so that whenever props are changed the layers control is unmounted and remounted
+ * when the layers are to be changed, unmount and remount the component via "key".
  */
 class LayersControl extends MapControl {
     props: LayersControlProps;
