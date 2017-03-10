@@ -5,7 +5,7 @@ import * as React from 'react';
 import {PureComponent, PropTypes} from "react";
 import {findDOMNode} from "react-dom";
 import {Map as LeafletMap} from 'leaflet';
-import {omit, isEqual} from 'underscore'
+import {omit} from 'underscore'
 
 interface MapProps extends LeafletMap.MapOptions {
     bounds: [LatLng, LatLng, LatLng, LatLng],
@@ -89,21 +89,27 @@ class Map extends PureComponent<MapProps, {}> {
 
         unbindEvents(leafletMap, leafletEvents);
 
-        if (!isEqual(nextProps.bounds, this.props.bounds)) {
+        if (!areMapBoundsClose(nextProps.bounds, this.props.bounds)) {
             const center: {lat: number, lng: number} = {
-                lat: (
-                    Math.min.apply(null, nextProps.bounds.map(b => b.lat)) +
-                    Math.max.apply(null, nextProps.bounds.map(b => b.lat))
-                ) / 2,
+                lat: Math.floor(
+                    (
+                        Math.min.apply(null, nextProps.bounds.map(b => b.lat)) +
+                        Math.max.apply(null, nextProps.bounds.map(b => b.lat))
+                    ) / 2
+                ),
 
-                lng: (
-                    Math.min.apply(null, nextProps.bounds.map(b => b.lng)) +
-                    Math.max.apply(null, nextProps.bounds.map(b => b.lng))
-                ) / 2,
+                lng: Math.floor(
+                    (
+                        Math.min.apply(null, nextProps.bounds.map(b => b.lng)) +
+                        Math.max.apply(null, nextProps.bounds.map(b => b.lng))
+                    ) / 2
+                )
             };
 
             leafletMap.setView(center);
         }
+
+        //TODO: maxbounds, style updates
 
         bindEvents(leafletMap, nextLeafletEvents);
 
@@ -120,6 +126,28 @@ class Map extends PureComponent<MapProps, {}> {
             this._leafletEvents = {};
         }, 0);
     }
+}
+
+function areMapBoundsClose(
+    mapBounds1: [LatLng, LatLng, LatLng, LatLng],
+    mapBounds2: [LatLng, LatLng, LatLng, LatLng]
+): boolean {
+    for (let i in mapBounds1) {
+        const diff: number = latLngDifference(mapBounds1[i], mapBounds2[i]);
+
+        if (diff > 1) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+function latLngDifference(latLng1: LatLng, latLng2: LatLng): number {
+    return Math.sqrt(
+        Math.pow(latLng1.lat - latLng2.lat, 2) +
+        Math.pow(latLng1.lng - latLng2.lng, 2)
+    );
 }
 
 export {

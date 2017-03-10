@@ -47,15 +47,16 @@ var Map = (function (_super) {
     Map.prototype.componentWillReceiveProps = function (nextProps) {
         var leafletMap = this.leafletElement, leafletEvents = this._leafletEvents, nextLeafletEvents = helpers_1.extractEvents(nextProps);
         helpers_1.unbindEvents(leafletMap, leafletEvents);
-        if (!underscore_1.isEqual(nextProps.bounds, this.props.bounds)) {
+        if (!areMapBoundsClose(nextProps.bounds, this.props.bounds)) {
             var center = {
-                lat: (Math.min.apply(null, nextProps.bounds.map(function (b) { return b.lat; })) +
-                    Math.max.apply(null, nextProps.bounds.map(function (b) { return b.lat; }))) / 2,
-                lng: (Math.min.apply(null, nextProps.bounds.map(function (b) { return b.lng; })) +
-                    Math.max.apply(null, nextProps.bounds.map(function (b) { return b.lng; }))) / 2,
+                lat: Math.floor((Math.min.apply(null, nextProps.bounds.map(function (b) { return b.lat; })) +
+                    Math.max.apply(null, nextProps.bounds.map(function (b) { return b.lat; }))) / 2),
+                lng: Math.floor((Math.min.apply(null, nextProps.bounds.map(function (b) { return b.lng; })) +
+                    Math.max.apply(null, nextProps.bounds.map(function (b) { return b.lng; }))) / 2)
             };
             leafletMap.setView(center);
         }
+        //TODO: maxbounds, style updates
         helpers_1.bindEvents(leafletMap, nextLeafletEvents);
         this._leafletEvents = nextLeafletEvents;
     };
@@ -80,3 +81,16 @@ Map.childContextTypes = {
     map: react_1.PropTypes.instanceOf(leaflet_1.Map)
 };
 exports.Map = Map;
+function areMapBoundsClose(mapBounds1, mapBounds2) {
+    for (var i in mapBounds1) {
+        var diff = latLngDifference(mapBounds1[i], mapBounds2[i]);
+        if (diff > 1) {
+            return false;
+        }
+    }
+    return true;
+}
+function latLngDifference(latLng1, latLng2) {
+    return Math.sqrt(Math.pow(latLng1.lat - latLng2.lat, 2) +
+        Math.pow(latLng1.lng - latLng2.lng, 2));
+}
