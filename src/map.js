@@ -47,7 +47,9 @@ var Map = (function (_super) {
     Map.prototype.componentWillReceiveProps = function (nextProps) {
         var leafletMap = this.leafletElement, leafletEvents = this._leafletEvents, nextLeafletEvents = helpers_1.extractEvents(nextProps);
         helpers_1.unbindEvents(leafletMap, leafletEvents);
-        //bounds is not updated here as it leads to complications
+        if (nextProps.isViewChanged && !areMapBoundsClose(nextProps.bounds, this.props.bounds)) {
+            leafletMap.fitBounds(nextProps.bounds);
+        }
         if (!areMapBoundsClose(nextProps.maxBounds, this.props.maxBounds)) {
             leafletMap.setMaxBounds(nextProps.maxBounds);
         }
