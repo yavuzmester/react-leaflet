@@ -76,8 +76,8 @@ var LayersControl = (function (_super) {
         return (this.props.overlays.find(function (b) { return b.title === title; }) || { name: undefined }).name;
     };
     LayersControl.prototype.componentWillUnmount = function () {
-        _super.prototype.componentWillUnmount.call(this);
         this._removeLayers();
+        _super.prototype.componentWillUnmount.call(this);
         this.context.map.removeEventListener("baselayerchange", this.onBaseLayerChange);
         this.context.map.removeEventListener("overlayadd", this.onOverlayAdd);
         this.context.map.removeEventListener("overlayremove", this.onOverlayRemove);

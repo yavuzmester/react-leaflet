@@ -114,9 +114,8 @@ class LayersControl extends MapControl {
     }
 
     componentWillUnmount() {
-        super.componentWillUnmount();
-
         this._removeLayers();
+        super.componentWillUnmount();
 
         this.context.map.removeEventListener("baselayerchange", this.onBaseLayerChange);
         this.context.map.removeEventListener("overlayadd", this.onOverlayAdd);
