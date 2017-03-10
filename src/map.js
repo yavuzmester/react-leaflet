@@ -47,7 +47,6 @@ var Map = (function (_super) {
     Map.prototype.componentWillReceiveProps = function (nextProps) {
         var leafletMap = this.leafletElement, leafletEvents = this._leafletEvents, nextLeafletEvents = helpers_1.extractEvents(nextProps);
         helpers_1.unbindEvents(leafletMap, leafletEvents);
-        helpers_1.bindEvents(leafletMap, nextLeafletEvents);
         if (!underscore_1.isEqual(nextProps.bounds, this.props.bounds)) {
             var center = {
                 lat: (Math.min.apply(null, nextProps.bounds.map(function (b) { return b.lat; })) +
@@ -57,6 +56,7 @@ var Map = (function (_super) {
             };
             leafletMap.setView(center);
         }
+        helpers_1.bindEvents(leafletMap, nextLeafletEvents);
         this._leafletEvents = nextLeafletEvents;
     };
     Map.prototype.componentWillUnmount = function () {

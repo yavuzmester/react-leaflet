@@ -88,7 +88,6 @@ class Map extends PureComponent<MapProps, {}> {
             nextLeafletEvents: Events = extractEvents(nextProps);
 
         unbindEvents(leafletMap, leafletEvents);
-        bindEvents(leafletMap, nextLeafletEvents);
 
         if (!isEqual(nextProps.bounds, this.props.bounds)) {
             const center: {lat: number, lng: number} = {
@@ -105,6 +104,8 @@ class Map extends PureComponent<MapProps, {}> {
 
             leafletMap.setView(center);
         }
+
+        bindEvents(leafletMap, nextLeafletEvents);
 
         this._leafletEvents = nextLeafletEvents;
     }
