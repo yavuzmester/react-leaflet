@@ -47,16 +47,13 @@ var Map = (function (_super) {
     Map.prototype.componentWillReceiveProps = function (nextProps) {
         var leafletMap = this.leafletElement, leafletEvents = this._leafletEvents, nextLeafletEvents = helpers_1.extractEvents(nextProps);
         helpers_1.unbindEvents(leafletMap, leafletEvents);
-        if (!areMapBoundsClose(nextProps.bounds, this.props.bounds)) {
-            var center = {
-                lat: Math.floor((Math.min.apply(null, nextProps.bounds.map(function (b) { return b.lat; })) +
-                    Math.max.apply(null, nextProps.bounds.map(function (b) { return b.lat; }))) / 2),
-                lng: Math.floor((Math.min.apply(null, nextProps.bounds.map(function (b) { return b.lng; })) +
-                    Math.max.apply(null, nextProps.bounds.map(function (b) { return b.lng; }))) / 2)
-            };
-            leafletMap.setView(center);
+        //bounds is not updated here as it leads to complications
+        if (!areMapBoundsClose(nextProps.maxBounds, this.props.maxBounds)) {
+            leafletMap.setMaxBounds(nextProps.maxBounds);
         }
-        //TODO: maxbounds, style updates
+        if (!underscore_1.isEqual(nextProps.style, this.props.style)) {
+            Object.assign(react_dom_1.findDOMNode(this).style, nextProps.style);
+        }
         helpers_1.bindEvents(leafletMap, nextLeafletEvents);
         this._leafletEvents = nextLeafletEvents;
     };

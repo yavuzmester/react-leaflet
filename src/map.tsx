@@ -5,10 +5,10 @@ import * as React from 'react';
 import {PureComponent, PropTypes} from "react";
 import {findDOMNode} from "react-dom";
 import {Map as LeafletMap} from 'leaflet';
-import {omit} from 'underscore'
+import {omit, isEqual} from 'underscore'
 
 interface MapProps extends LeafletMap.MapOptions {
-    bounds: [LatLng, LatLng, LatLng, LatLng],
+    bounds: [LatLng, LatLng, LatLng, LatLng],   //update operations on bounds are not handled, as it led to complications
     maxBounds?: any,
     style: {
         width?: number,
@@ -89,27 +89,18 @@ class Map extends PureComponent<MapProps, {}> {
 
         unbindEvents(leafletMap, leafletEvents);
 
-        if (!areMapBoundsClose(nextProps.bounds, this.props.bounds)) {
-            const center: {lat: number, lng: number} = {
-                lat: Math.floor(
-                    (
-                        Math.min.apply(null, nextProps.bounds.map(b => b.lat)) +
-                        Math.max.apply(null, nextProps.bounds.map(b => b.lat))
-                    ) / 2
-                ),
+        //bounds is not updated here as it leads to complications
 
-                lng: Math.floor(
-                    (
-                        Math.min.apply(null, nextProps.bounds.map(b => b.lng)) +
-                        Math.max.apply(null, nextProps.bounds.map(b => b.lng))
-                    ) / 2
-                )
-            };
-
-            leafletMap.setView(center);
+        if (!areMapBoundsClose(nextProps.maxBounds, this.props.maxBounds)) {
+            leafletMap.setMaxBounds(nextProps.maxBounds);
         }
 
-        //TODO: maxbounds, style updates
+        if (!isEqual(nextProps.style, this.props.style)) {
+            Object.assign(
+                findDOMNode<HTMLDivElement>(this).style,
+                nextProps.style
+            );
+        }
 
         bindEvents(leafletMap, nextLeafletEvents);
 
