@@ -1,4 +1,4 @@
-import {LayersControl} from './layers-control';
+import {LayersControl, LayersControlProps} from './layers-control';
 
 import * as React from 'react';
 
@@ -17,14 +17,9 @@ import * as LeafletGroupedLayerControl from "leaflet-groupedlayercontrol";
 
 import {omit, forEach} from "underscore";
 
-interface GroupedLayersControlProps {
-    position: "topleft" | "topright" | "bottomleft" | "bottomright",
-    baseLayers: Array<{name: string, title: string}>,
-    checkedBaseLayer: string,
+interface GroupedLayersControlProps extends LayersControlProps {
     overlays: Array<{name: string, title: string, checked: boolean, groupTitle: string}>,
-    onBaseLayerChange?: (name: string) => any,
-    onOverlayAdd?: (name: string) => any,
-    onOverlayRemove?: (name: string) => any
+    exclusiveGroups?: Array<string>
 }
 
 /**
@@ -33,6 +28,10 @@ interface GroupedLayersControlProps {
 class GroupedLayersControl extends LayersControl {
     props: GroupedLayersControlProps;
     leafletElement: (any & {_layers: any, _update: () => void}) | undefined;
+
+    static defaultProps = {
+        exclusiveGroups: []
+    };
 
     initLeafletElement() {
         const baseLayers: {[key: string]: LeafletLayerGroup<LeafletILayer>} = this.props.baseLayers.reduce((memo, b) => {
@@ -66,7 +65,10 @@ class GroupedLayersControl extends LayersControl {
         this.leafletElement = new (LeafletControl as any).GroupedLayers(
             baseLayers,
             overlays,
-            {position: this.props.position}
+            {
+                position: this.props.position,
+                exclusiveGroups: this.props.exclusiveGroups
+            }
         );
     }
 }

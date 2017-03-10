@@ -133,5 +133,6 @@ class LayersControl extends MapControl {
 }
 
 export {
-    LayersControl
+    LayersControl,
+    LayersControlProps
 };
