@@ -7,6 +7,7 @@ import {FeatureGroup} from "./src/feature-group";
 // import {ImageOverlay} from "./src/image-overlay";
 import {LayerGroup} from "./src/layer-group";
 import {LayersControl} from "./src/layers-control";
+import {GroupedLayersControl} from "./src/grouped-layers-control";
 import {Map} from "./src/map";
 import {MapControl} from "./src/map-control";
 import {MapLayer} from "./src/map-layer";
@@ -35,6 +36,7 @@ export {
     // ImageOverlay,
     LayerGroup,
     LayersControl,
+    GroupedLayersControl,
     Map,
     MapControl,
     MapLayer,

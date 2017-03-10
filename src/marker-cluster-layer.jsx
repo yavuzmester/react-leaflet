@@ -48,4 +48,7 @@ var MarkerClusterLayer = (function (_super) {
     };
     return MarkerClusterLayer;
 }(map_layer_1.MapLayer));
+MarkerClusterLayer.defaultProps = {
+    data: []
+};
 exports.MarkerClusterLayer = MarkerClusterLayer;

@@ -24,9 +24,9 @@ var Map = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Map.prototype.render = function () {
-        var map = this.leafletElement;
+        var leafletMap = this.leafletElement;
         return (<div style={this.props.style}>
-                {map ? this.props.children : null}
+                {leafletMap ? this.props.children : null}
             </div>);
     };
     Map.prototype.componentDidMount = function () {
@@ -47,16 +47,31 @@ var Map = (function (_super) {
         };
     };
     Map.prototype.componentWillReceiveProps = function (nextProps) {
-        var map = this.leafletElement, leafletEvents = this._leafletEvents, nextLeafletEvents = helpers_1.extractEvents(nextProps);
-        helpers_1.unbindEvents(map, leafletEvents);
-        helpers_1.bindEvents(map, nextLeafletEvents);
+        var leafletMap = this.leafletElement, leafletEvents = this._leafletEvents, nextLeafletEvents = helpers_1.extractEvents(nextProps);
+        helpers_1.unbindEvents(leafletMap, leafletEvents);
+        if (nextProps.isViewChanged && !areMapBoundsClose(nextProps.bounds, this.props.bounds)) {
+            leafletMap.fitBounds(nextProps.bounds);
+        }
+        if (!areMapBoundsClose(nextProps.maxBounds, this.props.maxBounds)) {
+            leafletMap.setMaxBounds(nextProps.maxBounds);
+        }
+        if (nextProps.maxZoom !== this.props.maxZoom) {
+            leafletMap.options.maxZoom = nextProps.maxZoom;
+        }
+        if (!underscore_1.isEqual(nextProps.style, this.props.style)) {
+            Object.assign(react_dom_1.findDOMNode(this).style, nextProps.style);
+        }
+        helpers_1.bindEvents(leafletMap, nextLeafletEvents);
         this._leafletEvents = nextLeafletEvents;
     };
     Map.prototype.componentWillUnmount = function () {
-        var map = this.leafletElement;
-        map.remove();
-        this.leafletElement = undefined;
-        this._leafletEvents = {};
+        var _this = this;
+        setTimeout(function () {
+            var leafletMap = _this.leafletElement;
+            leafletMap.remove();
+            _this.leafletElement = undefined;
+            _this._leafletEvents = {};
+        }, 0);
     };
     return Map;
 }(react_1.PureComponent));
@@ -70,3 +85,16 @@ Map.childContextTypes = {
     map: react_1.PropTypes.instanceOf(leaflet_1.Map)
 };
 exports.Map = Map;
+function areMapBoundsClose(mapBounds1, mapBounds2) {
+    for (var i in mapBounds1) {
+        var diff = latLngDifference(mapBounds1[i], mapBounds2[i]);
+        if (diff > 1) {
+            return false;
+        }
+    }
+    return true;
+}
+function latLngDifference(latLng1, latLng2) {
+    return Math.sqrt(Math.pow(latLng1.lat - latLng2.lat, 2) +
+        Math.pow(latLng1.lng - latLng2.lng, 2));
+}
