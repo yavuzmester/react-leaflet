@@ -95,6 +95,10 @@ class Map extends PureComponent<MapProps, {}> {
             leafletMap.setMaxBounds(nextProps.maxBounds);
         }
 
+        if (nextProps.maxZoom !== this.props.maxZoom) {
+            leafletMap.options.maxZoom = nextProps.maxZoom;
+        }
+
         if (!isEqual(nextProps.style, this.props.style)) {
             Object.assign(
                 findDOMNode<HTMLDivElement>(this).style,

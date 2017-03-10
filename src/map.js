@@ -51,6 +51,9 @@ var Map = (function (_super) {
         if (!areMapBoundsClose(nextProps.maxBounds, this.props.maxBounds)) {
             leafletMap.setMaxBounds(nextProps.maxBounds);
         }
+        if (nextProps.maxZoom !== this.props.maxZoom) {
+            leafletMap.options.maxZoom = nextProps.maxZoom;
+        }
         if (!underscore_1.isEqual(nextProps.style, this.props.style)) {
             Object.assign(react_dom_1.findDOMNode(this).style, nextProps.style);
         }
