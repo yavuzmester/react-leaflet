@@ -94,12 +94,14 @@ class Map extends PureComponent<MapProps, {}> {
     }
 
     componentWillUnmount() {
-        const map: LeafletMap = this.leafletElement as LeafletMap;
+        setTimeout(() => {
+            const map: LeafletMap = this.leafletElement as LeafletMap;
 
-        map.remove();
+            map.remove();
 
-        this.leafletElement = undefined;
-        this._leafletEvents = {};
+            this.leafletElement = undefined;
+            this._leafletEvents = {};
+        }, 0);
     }
 }
 

@@ -51,10 +51,13 @@ var Map = (function (_super) {
         this._leafletEvents = nextLeafletEvents;
     };
     Map.prototype.componentWillUnmount = function () {
-        var map = this.leafletElement;
-        map.remove();
-        this.leafletElement = undefined;
-        this._leafletEvents = {};
+        var _this = this;
+        setTimeout(function () {
+            var map = _this.leafletElement;
+            map.remove();
+            _this.leafletElement = undefined;
+            _this._leafletEvents = {};
+        }, 0);
     };
     return Map;
 }(react_1.PureComponent));
