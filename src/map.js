@@ -24,8 +24,8 @@ var Map = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Map.prototype.render = function () {
-        var map = this.leafletElement;
-        return (React.createElement("div", { style: this.props.style }, map ? this.props.children : null));
+        var leafletMap = this.leafletElement;
+        return (React.createElement("div", { style: this.props.style }, leafletMap ? this.props.children : null));
     };
     Map.prototype.componentDidMount = function () {
         var domNode = react_dom_1.findDOMNode(this);
@@ -45,16 +45,25 @@ var Map = (function (_super) {
         };
     };
     Map.prototype.componentWillReceiveProps = function (nextProps) {
-        var map = this.leafletElement, leafletEvents = this._leafletEvents, nextLeafletEvents = helpers_1.extractEvents(nextProps);
-        helpers_1.unbindEvents(map, leafletEvents);
-        helpers_1.bindEvents(map, nextLeafletEvents);
+        var leafletMap = this.leafletElement, leafletEvents = this._leafletEvents, nextLeafletEvents = helpers_1.extractEvents(nextProps);
+        helpers_1.unbindEvents(leafletMap, leafletEvents);
+        helpers_1.bindEvents(leafletMap, nextLeafletEvents);
+        if (!underscore_1.isEqual(nextProps.bounds, this.props.bounds)) {
+            var center = {
+                lat: (Math.min.apply(null, nextProps.bounds.map(function (b) { return b.lat; })) +
+                    Math.max.apply(null, nextProps.bounds.map(function (b) { return b.lat; }))) / 2,
+                lng: (Math.min.apply(null, nextProps.bounds.map(function (b) { return b.lng; })) +
+                    Math.max.apply(null, nextProps.bounds.map(function (b) { return b.lng; }))) / 2,
+            };
+            leafletMap.setView(center);
+        }
         this._leafletEvents = nextLeafletEvents;
     };
     Map.prototype.componentWillUnmount = function () {
         var _this = this;
         setTimeout(function () {
-            var map = _this.leafletElement;
-            map.remove();
+            var leafletMap = _this.leafletElement;
+            leafletMap.remove();
             _this.leafletElement = undefined;
             _this._leafletEvents = {};
         }, 0);

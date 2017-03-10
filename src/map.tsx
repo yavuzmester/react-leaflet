@@ -5,7 +5,7 @@ import * as React from 'react';
 import {PureComponent, PropTypes} from "react";
 import {findDOMNode} from "react-dom";
 import {Map as LeafletMap} from 'leaflet';
-import {omit, uniqueId} from 'underscore'
+import {omit, isEqual} from 'underscore'
 
 interface MapProps extends LeafletMap.MapOptions {
     bounds: [LatLng, LatLng, LatLng, LatLng],
@@ -40,11 +40,11 @@ class Map extends PureComponent<MapProps, {}> {
     };
 
     render() {
-        const map: LeafletMap | undefined = this.leafletElement;
+        const leafletMap: LeafletMap | undefined = this.leafletElement;
 
         return (
             <div style={this.props.style}>
-                {map ? this.props.children : null}
+                {leafletMap ? this.props.children : null}
             </div>
         );
     }
@@ -83,21 +83,37 @@ class Map extends PureComponent<MapProps, {}> {
     }
 
     componentWillReceiveProps(nextProps: MapProps) {
-        const map: LeafletMap = this.leafletElement as LeafletMap,
+        const leafletMap: LeafletMap = this.leafletElement as LeafletMap,
             leafletEvents: Events = this._leafletEvents,
             nextLeafletEvents: Events = extractEvents(nextProps);
 
-        unbindEvents(map, leafletEvents);
-        bindEvents(map, nextLeafletEvents);
+        unbindEvents(leafletMap, leafletEvents);
+        bindEvents(leafletMap, nextLeafletEvents);
+
+        if (!isEqual(nextProps.bounds, this.props.bounds)) {
+            const center: {lat: number, lng: number} = {
+                lat: (
+                    Math.min.apply(null, nextProps.bounds.map(b => b.lat)) +
+                    Math.max.apply(null, nextProps.bounds.map(b => b.lat))
+                ) / 2,
+
+                lng: (
+                    Math.min.apply(null, nextProps.bounds.map(b => b.lng)) +
+                    Math.max.apply(null, nextProps.bounds.map(b => b.lng))
+                ) / 2,
+            };
+
+            leafletMap.setView(center);
+        }
 
         this._leafletEvents = nextLeafletEvents;
     }
 
     componentWillUnmount() {
         setTimeout(() => {
-            const map: LeafletMap = this.leafletElement as LeafletMap;
+            const leafletMap: LeafletMap = this.leafletElement as LeafletMap;
 
-            map.remove();
+            leafletMap.remove();
 
             this.leafletElement = undefined;
             this._leafletEvents = {};
