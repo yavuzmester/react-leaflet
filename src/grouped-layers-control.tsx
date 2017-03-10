@@ -10,6 +10,11 @@ import {
 
 import * as LeafletGroupedLayerControl from "leaflet-groupedlayercontrol";
 
+//the hack is needed to require leaflet-groupedlayercontrol, if it is not used it is not required in the compiled jsx file.
+(function() {
+    var hack = LeafletGroupedLayerControl;}
+)();
+
 import {omit, forEach} from "underscore";
 
 interface GroupedLayersControlProps {
@@ -58,7 +63,7 @@ class GroupedLayersControl extends LayersControl {
             return memo;
         }, {});
 
-        this.leafletElement = new LeafletControl.Layers(
+        this.leafletElement = new (LeafletControl as any).GroupedLayers(
             baseLayers,
             overlays,
             {position: this.props.position}
