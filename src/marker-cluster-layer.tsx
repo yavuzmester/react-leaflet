@@ -26,6 +26,10 @@ class MarkerClusterLayer extends MapLayer {
     props: MarkerClusterLayerProps;
     leafletElement: any | undefined;
 
+    static defaultProps = {
+        data: []
+    };
+
     initLeafletElement() {
         this.leafletElement = new LeafletMarkerCluster();
     }
