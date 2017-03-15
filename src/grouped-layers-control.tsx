@@ -74,5 +74,6 @@ class GroupedLayersControl extends LayersControl {
 }
 
 export {
-    GroupedLayersControl
+    GroupedLayersControl,
+    GroupedLayersControlProps
 };
