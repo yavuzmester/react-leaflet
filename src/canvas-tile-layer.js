@@ -15,7 +15,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 var map_layer_1 = require("./map-layer");
 var leaflet_1 = require("leaflet");
 var underscore_1 = require("underscore");
-function initCanvas(canvas) {
+function prepareCanvas(canvas) {
     var ctx = canvas.getContext("2d");
     //smooth rendering
     ctx.imageSmoothingEnabled = false;
@@ -35,12 +35,7 @@ var CanvasTileLayer = (function (_super) {
     };
     CanvasTileLayer.prototype.componentDidMount = function () {
         _super.prototype.componentDidMount.call(this);
-        this._initCanvases();
         this._draw();
-    };
-    CanvasTileLayer.prototype._initCanvases = function () {
-        var leafletElement = this.leafletElement;
-        underscore_1.forEach(leafletElement._tiles, function (canvas) { return initCanvas(canvas); });
     };
     CanvasTileLayer.prototype.componentDidUpdate = function (prevProps) {
         var leafletElement = this.leafletElement;
@@ -56,6 +51,7 @@ var CanvasTileLayer = (function (_super) {
         leafletElement._update();
         underscore_1.forEach(leafletElement._tiles, function (canvas) {
             var tile = __assign({}, canvas._tilePoint, { zoom: _this.context.map.getZoom() });
+            prepareCanvas(canvas);
             _this.drawTile(canvas, tile);
         });
     };

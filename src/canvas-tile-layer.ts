@@ -10,7 +10,7 @@ interface CanvasTileLayerProps {
     opacity?: number
 }
 
-function initCanvas(canvas: HTMLCanvasElement): void {
+function prepareCanvas(canvas: HTMLCanvasElement): void {
     const ctx: any = canvas.getContext("2d");
 
     //smooth rendering
@@ -40,14 +40,7 @@ abstract class CanvasTileLayer extends MapLayer {
 
     componentDidMount() {
         super.componentDidMount();
-        this._initCanvases();
-
         this._draw();
-    }
-
-    _initCanvases() {
-        const leafletElement: LeafletCanvasTileLayerPatched = this.leafletElement as LeafletCanvasTileLayerPatched;
-        forEach(leafletElement._tiles, canvas => initCanvas(canvas));
     }
 
     componentDidUpdate(prevProps: CanvasTileLayerProps) {
@@ -71,6 +64,8 @@ abstract class CanvasTileLayer extends MapLayer {
                 ...canvas._tilePoint,
                 zoom: this.context.map.getZoom()
             };
+
+            prepareCanvas(canvas);
 
             this.drawTile(canvas, tile);
         });
