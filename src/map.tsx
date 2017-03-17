@@ -85,6 +85,13 @@ class Map extends PureComponent<MapProps, {}> {
             leafletEvents: Events = this._leafletEvents,
             nextLeafletEvents: Events = extractEvents(nextProps);
 
+        const currentLeafletMapBounds: [LatLng, LatLng, LatLng, LatLng] = [
+            leafletMap.getBounds().getSouthWest(),
+            leafletMap.getBounds().getSouthEast(),
+            leafletMap.getBounds().getNorthEast(),
+            leafletMap.getBounds().getNorthWest()
+        ];
+
         unbindEvents(leafletMap, leafletEvents);
 
         if ((nextProps.maxBounds !== this.props.maxBounds) && !areMapBoundsClose(nextProps.maxBounds, this.props.maxBounds)) {
@@ -102,24 +109,13 @@ class Map extends PureComponent<MapProps, {}> {
             );
         }
 
-        bindEvents(leafletMap, nextLeafletEvents);
-
-        this._leafletEvents = nextLeafletEvents;
-    }
-
-    componentDidUpdate() {
-        const leafletMap: LeafletMap = this.leafletElement as LeafletMap;
-
-        const currentLeafletMapBounds: [LatLng, LatLng, LatLng, LatLng] = [
-            leafletMap.getBounds().getSouthWest(),
-            leafletMap.getBounds().getSouthEast(),
-            leafletMap.getBounds().getNorthEast(),
-            leafletMap.getBounds().getNorthWest()
-        ];
-
         if (!areMapBoundsClose(this.props.bounds, currentLeafletMapBounds)) {
             leafletMap.fitBounds(this.props.bounds as any);
         }
+
+        bindEvents(leafletMap, nextLeafletEvents);
+
+        this._leafletEvents = nextLeafletEvents;
     }
 
     componentWillUnmount() {
