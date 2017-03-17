@@ -62,8 +62,8 @@ var Map = (function (_super) {
         if (!underscore_1.isEqual(nextProps.style, this.props.style)) {
             Object.assign(react_dom_1.findDOMNode(this).style, nextProps.style);
         }
-        if (!areMapBoundsClose(this.props.bounds, currentLeafletMapBounds)) {
-            leafletMap.fitBounds(this.props.bounds);
+        if (!areMapBoundsClose(nextProps.bounds, currentLeafletMapBounds)) {
+            leafletMap.fitBounds(nextProps.bounds);
         }
         helpers_1.bindEvents(leafletMap, nextLeafletEvents);
         this._leafletEvents = nextLeafletEvents;
