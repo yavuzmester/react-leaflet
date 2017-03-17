@@ -47,10 +47,7 @@ var Map = (function (_super) {
     Map.prototype.componentWillReceiveProps = function (nextProps) {
         var leafletMap = this.leafletElement, leafletEvents = this._leafletEvents, nextLeafletEvents = helpers_1.extractEvents(nextProps);
         helpers_1.unbindEvents(leafletMap, leafletEvents);
-        if (nextProps.isViewChanged && !areMapBoundsClose(nextProps.bounds, this.props.bounds)) {
-            leafletMap.fitBounds(nextProps.bounds);
-        }
-        if (!areMapBoundsClose(nextProps.maxBounds, this.props.maxBounds)) {
+        if ((nextProps.maxBounds !== this.props.maxBounds) && !areMapBoundsClose(nextProps.maxBounds, this.props.maxBounds)) {
             leafletMap.setMaxBounds(nextProps.maxBounds);
         }
         if (nextProps.maxZoom !== this.props.maxZoom) {
@@ -61,6 +58,18 @@ var Map = (function (_super) {
         }
         helpers_1.bindEvents(leafletMap, nextLeafletEvents);
         this._leafletEvents = nextLeafletEvents;
+    };
+    Map.prototype.componentDidUpdate = function () {
+        var leafletMap = this.leafletElement;
+        var currentLeafletMapBounds = [
+            leafletMap.getBounds().getSouthWest(),
+            leafletMap.getBounds().getSouthEast(),
+            leafletMap.getBounds().getNorthEast(),
+            leafletMap.getBounds().getNorthWest()
+        ];
+        if (!areMapBoundsClose(this.props.bounds, currentLeafletMapBounds)) {
+            leafletMap.fitBounds(this.props.bounds);
+        }
     };
     Map.prototype.componentWillUnmount = function () {
         var _this = this;

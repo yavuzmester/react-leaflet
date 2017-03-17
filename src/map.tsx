@@ -9,7 +9,6 @@ import {omit, isEqual} from 'underscore'
 
 interface MapProps extends LeafletMap.MapOptions {
     bounds: [LatLng, LatLng, LatLng, LatLng],
-    isViewChanged?: boolean,    //should be sent true to update bounds programmatically
     maxBounds?: any,
     style: {
         width?: number,
@@ -88,11 +87,7 @@ class Map extends PureComponent<MapProps, {}> {
 
         unbindEvents(leafletMap, leafletEvents);
 
-        if (nextProps.isViewChanged && !areMapBoundsClose(nextProps.bounds, this.props.bounds)) {
-            leafletMap.fitBounds(nextProps.bounds as any);
-        }
-
-        if (!areMapBoundsClose(nextProps.maxBounds, this.props.maxBounds)) {
+        if ((nextProps.maxBounds !== this.props.maxBounds) && !areMapBoundsClose(nextProps.maxBounds, this.props.maxBounds)) {
             leafletMap.setMaxBounds(nextProps.maxBounds);
         }
 
@@ -110,6 +105,21 @@ class Map extends PureComponent<MapProps, {}> {
         bindEvents(leafletMap, nextLeafletEvents);
 
         this._leafletEvents = nextLeafletEvents;
+    }
+
+    componentDidUpdate() {
+        const leafletMap: LeafletMap = this.leafletElement as LeafletMap;
+
+        const currentLeafletMapBounds: [LatLng, LatLng, LatLng, LatLng] = [
+            leafletMap.getBounds().getSouthWest(),
+            leafletMap.getBounds().getSouthEast(),
+            leafletMap.getBounds().getNorthEast(),
+            leafletMap.getBounds().getNorthWest()
+        ];
+
+        if (!areMapBoundsClose(this.props.bounds, currentLeafletMapBounds)) {
+            leafletMap.fitBounds(this.props.bounds as any);
+        }
     }
 
     componentWillUnmount() {
