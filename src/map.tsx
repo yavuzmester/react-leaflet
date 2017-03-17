@@ -92,8 +92,6 @@ class Map extends PureComponent<MapProps, {}> {
             leafletMap.getBounds().getNorthWest()
         ];
 
-        unbindEvents(leafletMap, leafletEvents);
-
         if ((nextProps.maxBounds !== this.props.maxBounds) && !areMapBoundsClose(nextProps.maxBounds, this.props.maxBounds)) {
             leafletMap.setMaxBounds(nextProps.maxBounds);
         }
@@ -110,12 +108,23 @@ class Map extends PureComponent<MapProps, {}> {
         }
 
         if (!areMapBoundsClose(nextProps.bounds, currentLeafletMapBounds)) {
-            leafletMap.fitBounds(nextProps.bounds as any);
+            this.fitBoundsWithoutEvents(nextProps.bounds)
         }
 
+        unbindEvents(leafletMap, leafletEvents);
         bindEvents(leafletMap, nextLeafletEvents);
-
         this._leafletEvents = nextLeafletEvents;
+    }
+
+    fitBoundsWithoutEvents(bounds: [LatLng, LatLng, LatLng, LatLng]) {
+        const leafletMap: LeafletMap = this.leafletElement as LeafletMap,
+            leafletEvents: Events = this._leafletEvents;
+
+        unbindEvents(leafletMap, leafletEvents);
+
+        leafletMap.fitBounds(bounds as any);
+
+        bindEvents(leafletMap, leafletEvents);
     }
 
     componentWillUnmount() {
