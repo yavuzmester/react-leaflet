@@ -4,9 +4,9 @@ import {LatLng} from "./types";
 import {MultiPolyline as LeafletMultiPolyline} from 'leaflet';
 import {omit} from "underscore";
 
-interface MultiPolygonProps {
+type MultiPolygonProps = {
     polylines: LatLng[][]
-}
+} & any;
 
 class MultiPolyline extends Path {
     props: MultiPolygonProps;

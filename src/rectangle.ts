@@ -4,9 +4,9 @@ import {LatLng} from "./types";
 import {Rectangle as LeafletRectangle} from 'leaflet';
 import {omit} from "underscore";
 
-interface RectangleBounds {
+type RectangleBounds = {
     bounds: LatLng[]
-}
+} & any;
 
 class Rectangle extends Path {
     props: RectangleBounds;

@@ -4,10 +4,10 @@ import {LatLng} from './types';
 import {Circle as LeafletCircle} from 'leaflet';
 import {omit} from "underscore";
 
-interface CircleProps {
+type CircleProps = {
     center: LatLng,
     radius: number
-}
+} & any;
 
 class Circle extends Path {
     props: CircleProps;
