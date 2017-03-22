@@ -5,7 +5,13 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var map_layer_1 = require("./map-layer");
-var LeafletMarkerCluster = require("leaflet.markercluster");
+var L = require("leaflet");
+var leafletMarkerCluster = require("leaflet.markercluster");
+//the hack is needed to require leaflet.markercluster, if it is not used it is not required in the compiled jsx file.
+(function () {
+    var hack = leafletMarkerCluster;
+})();
+var LeafletMarkerClusterGroup = L.MarkerClusterGroup;
 var leaflet_1 = require("leaflet");
 var markerIcon = new leaflet_1.Icon({
     iconUrl: "https://asmaloney.com/wp-content/themes/asmaloney/maps_cluster/images/pin24.png",
@@ -20,7 +26,7 @@ var MarkerClusterLayer = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     MarkerClusterLayer.prototype.initLeafletElement = function () {
-        this.leafletElement = new LeafletMarkerCluster();
+        this.leafletElement = new LeafletMarkerClusterGroup();
     };
     MarkerClusterLayer.prototype.render = function () {
         return null;

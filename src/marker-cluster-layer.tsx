@@ -1,6 +1,14 @@
 import {MapLayer} from "./map-layer";
 
-import * as LeafletMarkerCluster from "leaflet.markercluster";
+import * as L from "leaflet";
+import * as leafletMarkerCluster from "leaflet.markercluster";
+
+//the hack is needed to require leaflet.markercluster, if it is not used it is not required in the compiled jsx file.
+(function() {
+    var hack = leafletMarkerCluster;}
+)();
+
+const LeafletMarkerClusterGroup: any = (L as any).MarkerClusterGroup;
 
 import {
     Icon as LeafletIcon,
@@ -31,7 +39,7 @@ class MarkerClusterLayer extends MapLayer {
     };
 
     initLeafletElement() {
-        this.leafletElement = new LeafletMarkerCluster();
+        this.leafletElement = new LeafletMarkerClusterGroup();
     }
 
     render() {
