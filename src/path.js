@@ -27,6 +27,17 @@ var Path = (function (_super) {
     function Path() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
+    Path.prototype.componentDidMount = function () {
+        _super.prototype.componentDidMount.call(this);
+        var leafletElement = this.leafletElement;
+        if (typeof this.props.style !== "function") {
+            var style = underscore_1.pick(this.props, STYLE_OPTION_NAMES);
+            leafletElement.setStyle(style);
+        }
+        else {
+            leafletElement.setStyle(this.props.style);
+        }
+    };
     Path.prototype.componentDidUpdate = function (prevProps) {
         var leafletElement = this.leafletElement;
         if (typeof this.props.style !== "function") {

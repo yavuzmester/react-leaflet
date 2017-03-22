@@ -48,11 +48,13 @@ var Map = (function (_super) {
     };
     Map.prototype.componentWillReceiveProps = function (nextProps) {
         var leafletMap = this.leafletElement, leafletEvents = this._leafletEvents, nextLeafletEvents = helpers_1.extractEvents(nextProps);
-        helpers_1.unbindEvents(leafletMap, leafletEvents);
-        if (nextProps.isViewChanged && !areMapBoundsClose(nextProps.bounds, this.props.bounds)) {
-            leafletMap.fitBounds(nextProps.bounds);
-        }
-        if (!areMapBoundsClose(nextProps.maxBounds, this.props.maxBounds)) {
+        var currentLeafletMapBounds = [
+            leafletMap.getBounds().getSouthWest(),
+            leafletMap.getBounds().getSouthEast(),
+            leafletMap.getBounds().getNorthEast(),
+            leafletMap.getBounds().getNorthWest()
+        ];
+        if ((nextProps.maxBounds !== this.props.maxBounds) && !areMapBoundsClose(nextProps.maxBounds, this.props.maxBounds)) {
             leafletMap.setMaxBounds(nextProps.maxBounds);
         }
         if (nextProps.maxZoom !== this.props.maxZoom) {
@@ -61,8 +63,15 @@ var Map = (function (_super) {
         if (!underscore_1.isEqual(nextProps.style, this.props.style)) {
             Object.assign(react_dom_1.findDOMNode(this).style, nextProps.style);
         }
+        helpers_1.unbindEvents(leafletMap, leafletEvents);
         helpers_1.bindEvents(leafletMap, nextLeafletEvents);
         this._leafletEvents = nextLeafletEvents;
+    };
+    Map.prototype.fitBoundsWithoutEvents = function (bounds) {
+        var leafletMap = this.leafletElement, leafletEvents = this._leafletEvents;
+        helpers_1.unbindEvents(leafletMap, leafletEvents);
+        leafletMap.fitBounds(bounds);
+        helpers_1.bindEvents(leafletMap, leafletEvents);
     };
     Map.prototype.componentWillUnmount = function () {
         var _this = this;

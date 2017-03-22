@@ -38,7 +38,8 @@ abstract class MapControl extends PureComponent<MapControlProps, {}> {
     componentDidUpdate(prevProps: MapControlProps) {
         const leafletElement: LeafletControl = this.leafletElement as LeafletControl;
 
-        if (this.props.position !== prevProps.position) {
+        //L.Control.Draw for example does not have setPosition method, thus the guard is adjusted accordingly.
+        if (leafletElement.setPosition && (this.props.position !== prevProps.position)) {
             leafletElement.setPosition(this.props.position as any);
         }
     }

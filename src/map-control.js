@@ -20,7 +20,8 @@ var MapControl = (function (_super) {
     };
     MapControl.prototype.componentDidUpdate = function (prevProps) {
         var leafletElement = this.leafletElement;
-        if (this.props.position !== prevProps.position) {
+        //L.Control.Draw for example does not have setPosition method, thus the guard is adjusted accordingly.
+        if (leafletElement.setPosition && (this.props.position !== prevProps.position)) {
             leafletElement.setPosition(this.props.position);
         }
     };

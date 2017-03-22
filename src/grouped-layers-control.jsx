@@ -40,8 +40,14 @@ var GroupedLayersControl = (function (_super) {
             memo[o.groupTitle][o.title] = dummyOverlay;
             return memo;
         }, {});
-        this.leafletElement = new leaflet_1.Control.GroupedLayers(baseLayers, overlays, { position: this.props.position });
+        this.leafletElement = new leaflet_1.Control.GroupedLayers(baseLayers, overlays, {
+            position: this.props.position,
+            exclusiveGroups: this.props.exclusiveGroups
+        });
     };
     return GroupedLayersControl;
 }(layers_control_1.LayersControl));
+GroupedLayersControl.defaultProps = {
+    exclusiveGroups: []
+};
 exports.GroupedLayersControl = GroupedLayersControl;

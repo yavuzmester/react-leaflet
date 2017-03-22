@@ -24,6 +24,20 @@ abstract class Path extends MapLayer {
     props: any;
     leafletElement: LeafletPath | undefined;
 
+    componentDidMount() {
+        super.componentDidMount();
+
+        const leafletElement: LeafletPath = this.leafletElement as LeafletPath;
+
+        if (typeof this.props.style !== "function") {
+            const style: Object = pick(this.props, STYLE_OPTION_NAMES);
+            leafletElement.setStyle(style);
+        }
+        else {
+            leafletElement.setStyle(this.props.style);
+        }
+    }
+
     componentDidUpdate(prevProps: any) {
         const leafletElement: LeafletPath = this.leafletElement as LeafletPath;
 
