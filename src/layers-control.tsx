@@ -3,6 +3,7 @@ import {MapControl} from './map-control';
 import * as React from 'react';
 
 import {
+    Map as LeafletMap,
     Control as LeafletControl,
     LayerGroup as LeafletLayerGroup,
     ILayer as LeafletILayer
@@ -10,7 +11,7 @@ import {
 
 type LayersControlPatched = LeafletControl.Layers & {_layers: any, _update: () => void};
 
-import {omit, forEach} from "underscore";
+import {omit, values, forEach} from "underscore";
 
 import * as autobind from "autobind-decorator";
 
@@ -73,6 +74,18 @@ class LayersControl extends MapControl {
         this.context.map.on("baselayerchange", this.onBaseLayerChange);
         this.context.map.on("overlayadd", this.onOverlayAdd);
         this.context.map.on("overlayremove", this.onOverlayRemove);
+    }
+
+    getOverlays(): Array<{name: string, checked: boolean}> {
+        const leafletMap: LeafletMap = this.context.map,
+            layersControl: LayersControlPatched = this.leafletElement as LayersControlPatched;
+
+        return values(layersControl._layers).filter(layer => layer.overlay).map(overlay => {
+            return {
+                name: overlay.name,
+                checked: leafletMap.hasLayer(overlay)
+            };
+        });
     }
 
     @autobind
