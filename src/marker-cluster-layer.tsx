@@ -77,6 +77,18 @@ class MarkerClusterLayer extends MapLayer {
             }
         }, "");
     }
+
+    componentDidUpdate(prevProps: MarkerClusterLayerProps) {
+        if (this.props.data !== prevProps.data) {
+            const leafletElement: any = this.leafletElement as any;
+
+            leafletElement.clearLayers();
+
+            leafletElement.addLayers(
+                this.props.data.map(d => this._datumToMarker(d))
+            );
+        }
+    }
 }
 
 export {

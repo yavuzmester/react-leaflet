@@ -52,6 +52,14 @@ var MarkerClusterLayer = (function (_super) {
             }
         }, "");
     };
+    MarkerClusterLayer.prototype.componentDidUpdate = function (prevProps) {
+        var _this = this;
+        if (this.props.data !== prevProps.data) {
+            var leafletElement = this.leafletElement;
+            leafletElement.clearLayers();
+            leafletElement.addLayers(this.props.data.map(function (d) { return _this._datumToMarker(d); }));
+        }
+    };
     return MarkerClusterLayer;
 }(map_layer_1.MapLayer));
 MarkerClusterLayer.defaultProps = {
