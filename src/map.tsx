@@ -92,7 +92,7 @@ class Map extends PureComponent<MapProps, {}> {
             leafletMap.getBounds().getNorthWest()
         ];
 
-        if ((nextProps.maxBounds !== this.props.maxBounds) && !areMapBoundsClose(nextProps.maxBounds, this.props.maxBounds)) {
+        if ((nextProps.maxBounds !== this.props.maxBounds) && !areLatLngBoundsClose(nextProps.maxBounds, this.props.maxBounds)) {
             leafletMap.setMaxBounds(nextProps.maxBounds);
         }
 
@@ -135,15 +135,14 @@ class Map extends PureComponent<MapProps, {}> {
     }
 }
 
-function areMapBoundsClose(
-    mapBounds1: [LatLng, LatLng, LatLng, LatLng],
-    mapBounds2: [LatLng, LatLng, LatLng, LatLng]
-): boolean {
-    for (let i in mapBounds1) {
-        const diff: number = latLngDifference(mapBounds1[i], mapBounds2[i]);
+function areLatLngBoundsClose(latLngBounds1: LatLng[], latLngBounds2: LatLng[]): boolean {
+    if (latLngBounds1.length === latLngBounds2.length) {
+        for (let i in latLngBounds1) {
+            const diff: number = latLngDifference(latLngBounds1[i], latLngBounds2[i]);
 
-        if (diff > 1) {
-            return false;
+            if (diff > 1) {
+                return false;
+            }
         }
     }
 

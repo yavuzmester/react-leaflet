@@ -52,7 +52,7 @@ var Map = (function (_super) {
             leafletMap.getBounds().getNorthEast(),
             leafletMap.getBounds().getNorthWest()
         ];
-        if ((nextProps.maxBounds !== this.props.maxBounds) && !areMapBoundsClose(nextProps.maxBounds, this.props.maxBounds)) {
+        if ((nextProps.maxBounds !== this.props.maxBounds) && !areLatLngBoundsClose(nextProps.maxBounds, this.props.maxBounds)) {
             leafletMap.setMaxBounds(nextProps.maxBounds);
         }
         if (nextProps.maxZoom !== this.props.maxZoom) {
@@ -92,11 +92,13 @@ Map.childContextTypes = {
     map: react_1.PropTypes.instanceOf(leaflet_1.Map)
 };
 exports.Map = Map;
-function areMapBoundsClose(mapBounds1, mapBounds2) {
-    for (var i in mapBounds1) {
-        var diff = latLngDifference(mapBounds1[i], mapBounds2[i]);
-        if (diff > 1) {
-            return false;
+function areLatLngBoundsClose(latLngBounds1, latLngBounds2) {
+    if (latLngBounds1.length === latLngBounds2.length) {
+        for (var i in latLngBounds1) {
+            var diff = latLngDifference(latLngBounds1[i], latLngBounds2[i]);
+            if (diff > 1) {
+                return false;
+            }
         }
     }
     return true;
