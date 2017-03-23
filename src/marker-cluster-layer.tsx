@@ -89,6 +89,11 @@ class MarkerClusterLayer extends MapLayer {
             );
         }
     }
+
+    componentWillUnmount() {
+        const leafletElement: any = this.leafletElement as any;
+        leafletElement.clearLayers();
+    }
 }
 
 export {

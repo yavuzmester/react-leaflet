@@ -60,6 +60,10 @@ var MarkerClusterLayer = (function (_super) {
             leafletElement.addLayers(this.props.data.map(function (d) { return _this._datumToMarker(d); }));
         }
     };
+    MarkerClusterLayer.prototype.componentWillUnmount = function () {
+        var leafletElement = this.leafletElement;
+        leafletElement.clearLayers();
+    };
     return MarkerClusterLayer;
 }(map_layer_1.MapLayer));
 MarkerClusterLayer.defaultProps = {
