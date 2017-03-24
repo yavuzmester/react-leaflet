@@ -52,10 +52,13 @@ var LayersControl = (function (_super) {
         this.context.map.on("overlayremove", this.onOverlayRemove);
     };
     LayersControl.prototype.getOverlays = function () {
+        var _this = this;
         var leafletMap = this.context.map, layersControl = this.leafletElement;
         return underscore_1.values(layersControl._layers).filter(function (layer) { return layer.overlay; }).map(function (overlay) {
+            var overlayTitle = overlay.name, overlayName = _this._getOverlayName(overlayTitle);
             return {
-                name: overlay.name,
+                name: overlayName,
+                title: overlayTitle,
                 checked: leafletMap.hasLayer(overlay)
             };
         });

@@ -81,8 +81,12 @@ class LayersControl extends MapControl {
             layersControl: LayersControlPatched = this.leafletElement as LayersControlPatched;
 
         return values(layersControl._layers).filter(layer => layer.overlay).map(overlay => {
+            const overlayTitle: string = overlay.name,
+                overlayName: string = this._getOverlayName(overlayTitle) as string;
+
             return {
-                name: overlay.name,
+                name: overlayName,
+                title: overlayTitle,
                 checked: leafletMap.hasLayer(overlay)
             };
         });
