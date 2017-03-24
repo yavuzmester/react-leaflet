@@ -76,7 +76,7 @@ class LayersControl extends MapControl {
         this.context.map.on("overlayremove", this.onOverlayRemove);
     }
 
-    getOverlays(): Array<{name: string, checked: boolean}> {
+    getOverlays(): Array<{name: string, title: string, checked: boolean}> {
         const leafletMap: LeafletMap = this.context.map,
             layersControl: LayersControlPatched = this.leafletElement as LayersControlPatched;
 
