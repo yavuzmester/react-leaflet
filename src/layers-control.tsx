@@ -87,7 +87,7 @@ class LayersControl extends MapControl {
             return {
                 name: overlayName,
                 title: overlayTitle,
-                checked: leafletMap.hasLayer(overlay)
+                checked: leafletMap.hasLayer(overlay.layer)
             };
         });
     }

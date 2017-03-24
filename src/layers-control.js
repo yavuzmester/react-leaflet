@@ -59,7 +59,7 @@ var LayersControl = (function (_super) {
             return {
                 name: overlayName,
                 title: overlayTitle,
-                checked: leafletMap.hasLayer(overlay)
+                checked: leafletMap.hasLayer(overlay.layer)
             };
         });
     };
