@@ -1,6 +1,6 @@
 {
   "name": "@yavuzmester/react-leaflet",
-  "version": "0.2.27",
+  "version": "0.2.28",
   "description": "React components for Leaflet maps",
   "repository": {
     "type": "git",
@@ -15,9 +15,9 @@
     "leaflet": "^0.7.7",
     "leaflet-groupedlayercontrol": "0.6.0",
     "leaflet.markercluster": "^0.5.0",
-    "react": "^15.0.2",
+    "react": "^15.4.2",
     "react-context-wrapper": "^0.0.7",
-    "react-dom": "^15.0.2"
+    "react-dom": "^15.4.2"
   },
   "devDependencies": {
     "@types/geojson": "0.0.32",
