@@ -2,6 +2,8 @@ import {LayersControl, LayersControlProps} from './layers-control';
 
 import * as React from 'react';
 
+import * as L from "leaflet";
+
 import {
     Control as LeafletControl,
     LayerGroup as LeafletLayerGroup,
@@ -16,7 +18,7 @@ import * as LeafletGroupedLayerControl from "leaflet-groupedlayercontrol";
 )();
 
 //grouped layers control fix
-(LeafletControl as any).GroupedLayers.prototype._expand = function () {
+(L as any).Control.GroupedLayers.prototype._expand = function () {
     L.DomUtil.addClass(this._container, 'leaflet-control-layers-expanded');
     // permits to have a scrollbar if overlays heighter than the map.
     // var acceptableHeight = this._map._size.y - (this._container.offsetTop * 4);  //commented out
