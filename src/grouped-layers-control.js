@@ -5,9 +5,14 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var layers_control_1 = require("./layers-control");
-var L = require("leaflet");
+var leaflet_1 = require("leaflet");
+var LeafletGroupedLayerControl = require("leaflet-groupedlayercontrol");
+//the hack is needed to require leaflet-groupedlayercontrol, if it is not used it is not required in the compiled jsx file.
+(function () {
+    var hack = LeafletGroupedLayerControl;
+})();
 //grouped layers control fix
-L.Control.GroupedLayers.prototype._expand = function () {
+leaflet_1.Control.GroupedLayers.prototype._expand = function () {
     L.DomUtil.addClass(this._container, 'leaflet-control-layers-expanded');
     // permits to have a scrollbar if overlays heighter than the map.
     // var acceptableHeight = this._map._size.y - (this._container.offsetTop * 4);  //commented out
@@ -17,12 +22,6 @@ L.Control.GroupedLayers.prototype._expand = function () {
         this._form.style.height = acceptableHeight + 'px';
     }
 };
-var leaflet_1 = require("leaflet");
-var LeafletGroupedLayerControl = require("leaflet-groupedlayercontrol");
-//the hack is needed to require leaflet-groupedlayercontrol, if it is not used it is not required in the compiled jsx file.
-(function () {
-    var hack = LeafletGroupedLayerControl;
-})();
 /**
  * when the layers are to be changed, unmount and remount the component via "key".
  */
