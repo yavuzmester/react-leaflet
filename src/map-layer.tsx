@@ -6,14 +6,8 @@ import {
     ILayer as LeafletILayer
 } from "leaflet";
 
-interface MapLayerContext {
-    map: LeafletMap,
-    layerGroup?: LeafletLayerGroup<LeafletILayer>
-}
-
 abstract class MapLayer extends PureComponent<any, {}> {
     props: any;
-    context: MapLayerContext;
     leafletElement: LeafletILayer | undefined;
 
     static contextTypes = {

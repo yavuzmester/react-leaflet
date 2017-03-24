@@ -9,13 +9,8 @@ interface MapControlProps {
     position: "topleft" | "topright" | "bottomleft" | "bottomright"
 }
 
-interface MapControlContext {
-    map: LeafletMap
-}
-
 abstract class MapControl extends PureComponent<MapControlProps, {}> {
     props: MapControlProps;
-    context: MapControlContext;
     leafletElement: LeafletControl | undefined;
 
     static contextTypes = {
