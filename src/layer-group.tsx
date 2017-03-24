@@ -20,7 +20,7 @@ class LayerGroup extends MapLayer {
         children: PropTypes.oneOfType([
             PropTypes.arrayOf(PropTypes.node),
             PropTypes.node,
-        ]).isRequired
+        ])
     };
 
     static childContextTypes = {

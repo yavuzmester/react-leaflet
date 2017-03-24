@@ -32,7 +32,7 @@ class Map extends PureComponent<MapProps, {}> {
         children: PropTypes.oneOfType([
             PropTypes.arrayOf(PropTypes.node),
             PropTypes.node,
-        ]).isRequired
+        ])
     };
 
     static childContextTypes = {

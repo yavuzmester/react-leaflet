@@ -86,7 +86,7 @@ Map.propTypes = {
     children: react_1.PropTypes.oneOfType([
         react_1.PropTypes.arrayOf(react_1.PropTypes.node),
         react_1.PropTypes.node,
-    ]).isRequired
+    ])
 };
 Map.childContextTypes = {
     map: react_1.PropTypes.instanceOf(leaflet_1.Map)
