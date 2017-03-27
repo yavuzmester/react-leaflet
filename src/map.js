@@ -68,7 +68,7 @@ var Map = (function (_super) {
     Map.prototype.fitBoundsWithoutEvents = function (bounds) {
         var leafletMap = this.leafletElement, leafletEvents = this._leafletEvents;
         helpers_1.unbindEvents(leafletMap, leafletEvents);
-        leafletMap.fitBounds(bounds);
+        leafletMap.fitBounds(bounds, { animate: false });
         helpers_1.bindEvents(leafletMap, leafletEvents);
     };
     Map.prototype.componentWillUnmount = function () {

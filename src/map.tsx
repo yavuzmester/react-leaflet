@@ -118,7 +118,7 @@ class Map extends PureComponent<MapProps, {}> {
 
         unbindEvents(leafletMap, leafletEvents);
 
-        leafletMap.fitBounds(bounds as any);
+        leafletMap.fitBounds(bounds as any, {animate: false});
 
         bindEvents(leafletMap, leafletEvents);
     }
