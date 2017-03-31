@@ -1,13 +1,10 @@
-import {Path} from './path';
+import {Path, PathProps} from './path';
 import {LatLng} from './types';
 
 import {Circle as LeafletCircle} from 'leaflet';
 import {omit} from "underscore";
 
-type CircleProps = {
-    center: LatLng,
-    radius: number
-} & any;
+type CircleProps = PathProps & {center: LatLng, radius: number} & any;
 
 class Circle extends Path {
     props: CircleProps;

@@ -1,15 +1,13 @@
-import {Path} from "./path";
+import {Path, PathProps} from "./path";
 import {LatLng} from "./types";
 
 import {Rectangle as LeafletRectangle} from 'leaflet';
 import {omit} from "underscore";
 
-type RectangleBounds = {
-    bounds: LatLng[]
-} & any;
+type RectangleProps = PathProps & {bounds: LatLng[]} & any;
 
 class Rectangle extends Path {
-    props: RectangleBounds;
+    props: RectangleProps;
     leafletElement: LeafletRectangle | undefined;
 
     initLeafletElement() {
@@ -23,7 +21,7 @@ class Rectangle extends Path {
         return null;
     }
 
-    componentDidUpdate(prevProps: RectangleBounds) {
+    componentDidUpdate(prevProps: RectangleProps) {
         super.componentDidUpdate(prevProps);
 
         const leafletElement: LeafletRectangle = this.leafletElement as LeafletRectangle;

@@ -6,22 +6,31 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var map_layer_1 = require("./map-layer");
 var underscore_1 = require("underscore");
-var STYLE_OPTION_NAMES = [
-    'stroke',
-    'color',
-    'weight',
-    'opacity',
-    'fill',
-    'fillColor',
-    'fillOpacity',
-    'fillRule',
-    'dashArray',
-    'lineCap',
-    'lineJoin',
-    'clickable',
-    'pointerEvents',
-    'className',
-];
+function createLeafletOptions(pathOptions) {
+    if (typeof pathOptions === "undefined") {
+        return {};
+    }
+    else {
+        var options = underscore_1.pick(pathOptions, "fill", "fillColor", "fillOpacity", "fillRule", "stroke", "clickable", "pointerEvents", "className");
+        options.color = pathOptions.strokeColor || pathOptions.fillColor;
+        if (!underscore_1.isUndefined(pathOptions.strokeWeight)) {
+            options.weight = pathOptions.strokeWeight;
+        }
+        if (!underscore_1.isUndefined(pathOptions.strokeOpacity)) {
+            options.opacity = pathOptions.strokeOpacity;
+        }
+        if (!underscore_1.isUndefined(pathOptions.strokeDashArray)) {
+            options.dashArray = pathOptions.strokeDashArray;
+        }
+        if (!underscore_1.isUndefined(pathOptions.strokeLineCap)) {
+            options.lineCap = pathOptions.strokeLineCap;
+        }
+        if (!underscore_1.isUndefined(pathOptions.strokeLineJoin)) {
+            options.lineJoin = pathOptions.strokeLineJoin;
+        }
+        return options;
+    }
+}
 var Path = (function (_super) {
     __extends(Path, _super);
     function Path() {
@@ -30,24 +39,26 @@ var Path = (function (_super) {
     Path.prototype.componentDidMount = function () {
         _super.prototype.componentDidMount.call(this);
         var leafletElement = this.leafletElement;
-        if (typeof this.props.style !== "function") {
-            var style = underscore_1.pick(this.props, STYLE_OPTION_NAMES);
-            leafletElement.setStyle(style);
-        }
-        else {
-            leafletElement.setStyle(this.props.style);
+        if (typeof this.props.style !== "undefined") {
+            if (typeof this.props.style === "function") {
+                leafletElement.setStyle(this.props.style);
+            }
+            else {
+                var style = createLeafletOptions(this.props.style);
+                leafletElement.setStyle(style);
+            }
         }
     };
     Path.prototype.componentDidUpdate = function (prevProps) {
         var leafletElement = this.leafletElement;
-        if (typeof this.props.style !== "function") {
-            var style = underscore_1.pick(this.props, STYLE_OPTION_NAMES), prevStyle = underscore_1.pick(prevProps, STYLE_OPTION_NAMES);
+        if (typeof this.props.style === "function") {
+            leafletElement.setStyle(this.props.style);
+        }
+        else {
+            var style = createLeafletOptions(this.props.style || this.props), prevStyle = createLeafletOptions(prevProps.style || prevProps);
             if (!underscore_1.isEqual(style, prevStyle)) {
                 leafletElement.setStyle(style);
             }
-        }
-        else {
-            leafletElement.setStyle(this.props.style);
         }
     };
     return Path;

@@ -1,4 +1,4 @@
-import {Path} from './path';
+import {Path, PathProps} from './path';
 
 import {GeoJSON as LeafletGeoJsonLayer} from 'leaflet';
 import {omit, isFunction} from 'underscore';
@@ -7,9 +7,7 @@ import FeatureCollection = GeoJSON.FeatureCollection;
 import MultiPolygon = GeoJSON.MultiPolygon;
 import Feature = GeoJSON.Feature;
 
-interface GeoJSONProps {
-    geojson: FeatureCollection<MultiPolygon>;
-}
+type GeoJSONProps = PathProps & {geojson: FeatureCollection<MultiPolygon>} & any;
 
 class GeoJSONLayer extends Path {
     props: GeoJSONProps;

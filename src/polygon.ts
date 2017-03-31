@@ -1,12 +1,10 @@
-import {Path} from "./path";
+import {Path, PathProps} from "./path";
 import {LatLng} from "./types";
 
 import {Polygon as LeafletPolygon} from 'leaflet';
 import {omit} from "underscore";
 
-type PolygonProps = {
-    bounds: LatLng[]
-} & any;
+type PolygonProps = PathProps & {bounds: LatLng[]} & any;
 
 class Polygon extends Path {
     props: PolygonProps;

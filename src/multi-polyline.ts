@@ -1,12 +1,10 @@
-import {Path} from "./path";
+import {Path, PathProps} from "./path";
 import {LatLng} from "./types";
 
 import {MultiPolyline as LeafletMultiPolyline} from 'leaflet';
 import {omit} from "underscore";
 
-type MultiPolygonProps = {
-    polylines: LatLng[][]
-} & any;
+type MultiPolygonProps = PathProps & {polylines: LatLng[]} & any;
 
 class MultiPolyline extends Path {
     props: MultiPolygonProps;
