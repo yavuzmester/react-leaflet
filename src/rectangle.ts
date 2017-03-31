@@ -13,7 +13,7 @@ class Rectangle extends Path {
     initLeafletElement() {
         this.leafletElement = new LeafletRectangle(
             this.props.bounds as any,
-            omit(this.props, "bounds")
+            Path.createLeafletOptions(omit(this.props, "bounds"))
         );
     }
 

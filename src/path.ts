@@ -73,6 +73,8 @@ abstract class Path extends MapLayer {
     props: PathProps;
     leafletElement: LeafletPath | undefined;
 
+    static createLeafletOptions: (pathOptions: PathProps | undefined) => any = createLeafletOptions;
+
     componentDidMount() {
         super.componentDidMount();
 

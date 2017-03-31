@@ -14,7 +14,7 @@ class Circle extends Path {
         this.leafletElement = new LeafletCircle(
             this.props.center,
             this.props.radius,
-            omit(this.props, "center", "radius")
+            Path.createLeafletOptions(omit(this.props, "center", "radius"))
         );
     }
 

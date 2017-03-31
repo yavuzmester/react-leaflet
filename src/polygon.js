@@ -13,7 +13,7 @@ var Polygon = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Polygon.prototype.initLeafletElement = function () {
-        this.leafletElement = new leaflet_1.Polygon(this.props.bounds, underscore_1.omit(this.props, "bounds"));
+        this.leafletElement = new leaflet_1.Polygon(this.props.bounds, path_1.Path.createLeafletOptions(underscore_1.omit(this.props, "bounds")));
     };
     Polygon.prototype.render = function () {
         return null;

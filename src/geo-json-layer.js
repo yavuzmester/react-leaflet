@@ -13,7 +13,7 @@ var GeoJSONLayer = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     GeoJSONLayer.prototype.initLeafletElement = function () {
-        this.leafletElement = new leaflet_1.GeoJSON(this.props.geojson, underscore_1.omit(this.props, "geojson"));
+        this.leafletElement = new leaflet_1.GeoJSON(this.props.geojson, path_1.Path.createLeafletOptions(underscore_1.omit(this.props, "geojson")));
     };
     GeoJSONLayer.prototype.render = function () {
         return null;

@@ -13,7 +13,7 @@ var MultiPolygon = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     MultiPolygon.prototype.initLeafletElement = function () {
-        this.leafletElement = new leaflet_1.MultiPolygon(this.props.polygons, underscore_1.omit(this.props, "polygons"));
+        this.leafletElement = new leaflet_1.MultiPolygon(this.props.polygons, path_1.Path.createLeafletOptions(underscore_1.omit(this.props, "polygons")));
     };
     MultiPolygon.prototype.render = function () {
         return null;

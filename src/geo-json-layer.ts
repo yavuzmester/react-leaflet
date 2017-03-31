@@ -16,7 +16,7 @@ class GeoJSONLayer extends Path {
     initLeafletElement() {
         this.leafletElement = new LeafletGeoJsonLayer(
             this.props.geojson,
-            omit(this.props, "geojson")
+            Path.createLeafletOptions(omit(this.props, "geojson"))
         );
     }
 

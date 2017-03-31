@@ -13,7 +13,7 @@ var Circle = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Circle.prototype.initLeafletElement = function () {
-        this.leafletElement = new leaflet_1.Circle(this.props.center, this.props.radius, underscore_1.omit(this.props, "center", "radius"));
+        this.leafletElement = new leaflet_1.Circle(this.props.center, this.props.radius, path_1.Path.createLeafletOptions(underscore_1.omit(this.props, "center", "radius")));
     };
     Circle.prototype.render = function () {
         return null;

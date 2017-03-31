@@ -13,7 +13,7 @@ var CircleMarker = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     CircleMarker.prototype.initLeafletElement = function () {
-        this.leafletElement = new leaflet_1.CircleMarker(this.props.center, underscore_1.omit(this.props, "center"));
+        this.leafletElement = new leaflet_1.CircleMarker(this.props.center, path_1.Path.createLeafletOptions(underscore_1.omit(this.props, "bounds")));
     };
     CircleMarker.prototype.render = function () {
         return null;

@@ -13,7 +13,7 @@ var MultiPolyline = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     MultiPolyline.prototype.initLeafletElement = function () {
-        this.leafletElement = new leaflet_1.MultiPolyline(this.props.polylines, underscore_1.omit(this.props, "polylines"));
+        this.leafletElement = new leaflet_1.MultiPolyline(this.props.polylines, path_1.Path.createLeafletOptions(underscore_1.omit(this.props, "polylines")));
     };
     MultiPolyline.prototype.render = function () {
         return null;

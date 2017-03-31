@@ -13,7 +13,7 @@ var Polyline = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Polyline.prototype.initLeafletElement = function () {
-        this.leafletElement = new leaflet_1.Polyline(this.props.latLngs, underscore_1.omit(this.props, "bounds"));
+        this.leafletElement = new leaflet_1.Polyline(this.props.latLngs, path_1.Path.createLeafletOptions(underscore_1.omit(this.props, "bounds")));
     };
     Polyline.prototype.render = function () {
         return null;

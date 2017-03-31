@@ -13,7 +13,7 @@ class MultiPolyline extends Path {
     initLeafletElement() {
         this.leafletElement = new LeafletMultiPolyline(
             this.props.polylines as any,
-            omit(this.props, "polylines")
+            Path.createLeafletOptions(omit(this.props, "polylines"))
         );
     }
 

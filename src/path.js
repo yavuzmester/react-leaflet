@@ -63,4 +63,5 @@ var Path = (function (_super) {
     };
     return Path;
 }(map_layer_1.MapLayer));
+Path.createLeafletOptions = createLeafletOptions;
 exports.Path = Path;

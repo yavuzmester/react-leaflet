@@ -13,7 +13,7 @@ var Rectangle = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Rectangle.prototype.initLeafletElement = function () {
-        this.leafletElement = new leaflet_1.Rectangle(this.props.bounds, underscore_1.omit(this.props, "bounds"));
+        this.leafletElement = new leaflet_1.Rectangle(this.props.bounds, path_1.Path.createLeafletOptions(underscore_1.omit(this.props, "bounds")));
     };
     Rectangle.prototype.render = function () {
         return null;

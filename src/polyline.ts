@@ -13,7 +13,7 @@ class Polyline extends Path {
     initLeafletElement() {
         this.leafletElement = new LeafletPolyline(
             this.props.latLngs,
-            omit(this.props, "bounds")
+            Path.createLeafletOptions(omit(this.props, "bounds"))
         );
     }
 

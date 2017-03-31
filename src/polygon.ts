@@ -13,7 +13,7 @@ class Polygon extends Path {
     initLeafletElement() {
         this.leafletElement = new LeafletPolygon(
             this.props.bounds,
-            omit(this.props, "bounds")
+            Path.createLeafletOptions(omit(this.props, "bounds"))
         );
     }
 

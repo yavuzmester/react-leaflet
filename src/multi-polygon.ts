@@ -13,7 +13,7 @@ class MultiPolygon extends Path {
     initLeafletElement() {
         this.leafletElement = new LeafletMultiPolygon(
             this.props.polygons as any,
-            omit(this.props, "polygons")
+            Path.createLeafletOptions(omit(this.props, "polygons"))
         );
     }
 
