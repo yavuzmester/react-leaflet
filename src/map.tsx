@@ -16,7 +16,10 @@ interface MapProps extends LeafletMap.MapOptions {
         background?: string
     },
     onLoad?: (e: any) => void,
-    onMoveend?: (e: any) => void
+    onMoveend?: (e: any) => void,
+    onMouseover?: (e: any) => void,
+    onMousemove?: (e: any) => void,
+    onMouseout?: (e: any) => void
 }
 
 interface MapChildContext {
