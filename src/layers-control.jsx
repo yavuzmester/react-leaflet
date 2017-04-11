@@ -51,6 +51,18 @@ var LayersControl = (function (_super) {
         this.context.map.on("overlayadd", this.onOverlayAdd);
         this.context.map.on("overlayremove", this.onOverlayRemove);
     };
+    LayersControl.prototype.getOverlays = function () {
+        var _this = this;
+        var leafletMap = this.context.map, layersControl = this.leafletElement;
+        return underscore_1.values(layersControl._layers).filter(function (layer) { return layer.overlay; }).map(function (overlay) {
+            var overlayTitle = overlay.name, overlayName = _this._getOverlayName(overlayTitle);
+            return {
+                name: overlayName,
+                title: overlayTitle,
+                checked: leafletMap.hasLayer(overlay.layer)
+            };
+        });
+    };
     LayersControl.prototype.onBaseLayerChange = function (e) {
         if (this.props.onBaseLayerChange) {
             var baseLayerTitle = e.name, baseLayerName = this._getBaseLayerName(baseLayerTitle);
