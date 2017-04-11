@@ -29,7 +29,7 @@ var Map = (function (_super) {
     };
     Map.prototype.componentDidMount = function () {
         var domNode = react_dom_1.findDOMNode(this);
-        var leafletElement = new leaflet_1.Map(domNode, __assign({}, underscore_1.omit(this.props, 'children', 'onLoad', 'onMoveend'), { attributionControl: false }));
+        var leafletElement = new leaflet_1.Map(domNode, __assign({}, underscore_1.omit(this.props, 'children', 'onLoad', 'onMoveend', 'onMouseover', 'onMousemove', 'onMouseout'), { attributionControl: false }));
         if (typeof this.props.bounds !== "undefined") {
             leafletElement.fitBounds(this.props.bounds);
         }

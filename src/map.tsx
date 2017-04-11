@@ -58,7 +58,7 @@ class Map extends PureComponent<MapProps, {}> {
         const leafletElement: LeafletMap = new LeafletMap(
             domNode as any,
             {
-                ...omit(this.props, 'children', 'onLoad', 'onMoveend'),
+                ...omit(this.props, 'children', 'onLoad', 'onMoveend', 'onMouseover', 'onMousemove', 'onMouseout'),
                 attributionControl: false
             }
         );
