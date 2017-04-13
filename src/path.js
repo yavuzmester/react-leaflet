@@ -11,7 +11,7 @@ function createLeafletOptions(pathOptions) {
         return {};
     }
     else {
-        var options = underscore_1.pick(pathOptions, "fill", "fillColor", "fillOpacity", "fillRule", "stroke", "clickable", "pointerEvents", "className");
+        var options = underscore_1.pick(pathOptions, "fill", "fillColor", "fillOpacity", "fillRule", "stroke", "clickable", "pointerEvents", "className", "type");
         options.color = pathOptions.strokeColor || pathOptions.fillColor;
         if (!underscore_1.isUndefined(pathOptions.strokeWeight)) {
             options.weight = pathOptions.strokeWeight;
