@@ -139,7 +139,10 @@ class Map extends PureComponent<MapProps, {}> {
 }
 
 function areLatLngBoundsClose(latLngBounds1: LatLng[], latLngBounds2: LatLng[]): boolean {
-    if (latLngBounds1.length === latLngBounds2.length) {
+    if (latLngBounds1.length !== latLngBounds2.length) {
+        return false;
+    }
+    else {
         for (let i in latLngBounds1) {
             const diff: number = latLngDifference(latLngBounds1[i], latLngBounds2[i]);
 
@@ -147,9 +150,9 @@ function areLatLngBoundsClose(latLngBounds1: LatLng[], latLngBounds2: LatLng[]):
                 return false;
             }
         }
-    }
 
-    return true;
+        return true;
+    }
 }
 
 function latLngDifference(latLng1: LatLng, latLng2: LatLng): number {

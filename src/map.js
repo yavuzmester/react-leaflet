@@ -93,15 +93,18 @@ Map.childContextTypes = {
 };
 exports.Map = Map;
 function areLatLngBoundsClose(latLngBounds1, latLngBounds2) {
-    if (latLngBounds1.length === latLngBounds2.length) {
+    if (latLngBounds1.length !== latLngBounds2.length) {
+        return false;
+    }
+    else {
         for (var i in latLngBounds1) {
             var diff = latLngDifference(latLngBounds1[i], latLngBounds2[i]);
             if (diff > 1) {
                 return false;
             }
         }
+        return true;
     }
-    return true;
 }
 function latLngDifference(latLng1, latLng2) {
     return Math.sqrt(Math.pow(latLng1.lat - latLng2.lat, 2) +
