@@ -24,7 +24,7 @@ interface PathProps {
     strokeLineJoin?: string,   //'lineJoin' in leaflet
 
     style?: PathProps | Function,
-    type?: string
+    TYPE?: string
 }
 
 function createLeafletOptions(pathOptions: PathProps | undefined): any {
@@ -42,7 +42,7 @@ function createLeafletOptions(pathOptions: PathProps | undefined): any {
             "clickable",
             "pointerEvents",
             "className",
-            "type"
+            "TYPE"
         );
 
         options.color = pathOptions.strokeColor || pathOptions.fillColor;
