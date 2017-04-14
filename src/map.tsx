@@ -8,7 +8,9 @@ import {Map as LeafletMap} from 'leaflet';
 import {omit, isEqual} from 'underscore'
 
 interface MapProps extends LeafletMap.MapOptions {
-    bounds: [LatLng, LatLng, LatLng, LatLng],
+    // bounds: [LatLng, LatLng, LatLng, LatLng],
+    zoom: number,
+    center: any,
     maxBounds?: any,
     style: {
         width?: number,
@@ -63,9 +65,11 @@ class Map extends PureComponent<MapProps, {}> {
             }
         );
 
-        if (typeof this.props.bounds !== "undefined") {
-            leafletElement.fitBounds(this.props.bounds as any);
-        }
+        // if (typeof this.props.bounds !== "undefined") {
+        //     leafletElement.fitBounds(this.props.bounds as any);
+        // }
+
+        leafletElement.setView(this.props.center, this.props.zoom);
 
         const leafletEvents: Events = extractEvents(this.props);
 
