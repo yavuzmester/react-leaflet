@@ -99,6 +99,10 @@ class Map extends PureComponent<MapProps, {}> {
             leafletMap.getBounds().getNorthWest()
         ];
 
+        if (this.props.center.lat !== nextProps.center.lat || this.props.center.lng !== nextProps.center.lng || this.props.zoom !== nextProps.zoom) {
+            leafletMap.setView(this.props.center, this.props.zoom);
+        }
+
         if ((nextProps.maxBounds !== this.props.maxBounds) && !areLatLngBoundsClose(nextProps.maxBounds, this.props.maxBounds)) {
             leafletMap.setMaxBounds(nextProps.maxBounds);
         }
