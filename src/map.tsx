@@ -130,6 +130,17 @@ class Map extends PureComponent<MapProps, {}> {
         bindEvents(leafletMap, leafletEvents);
     }
 
+    setViewWithoutEvents(center: LatLng, zoom: number) {
+        const leafletMap: LeafletMap = this.leafletElement as LeafletMap,
+            leafletEvents: Events = this._leafletEvents;
+
+        unbindEvents(leafletMap, leafletEvents);
+
+        leafletMap.setView(center as any, zoom, {animate: false});
+
+        bindEvents(leafletMap, leafletEvents);
+    }
+
     componentWillUnmount() {
         setTimeout(() => {
             const leafletMap: LeafletMap = this.leafletElement as LeafletMap;

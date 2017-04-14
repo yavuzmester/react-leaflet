@@ -72,6 +72,12 @@ var Map = (function (_super) {
         leafletMap.fitBounds(bounds, { animate: false });
         helpers_1.bindEvents(leafletMap, leafletEvents);
     };
+    Map.prototype.setViewWithoutEvents = function (center, zoom) {
+        var leafletMap = this.leafletElement, leafletEvents = this._leafletEvents;
+        helpers_1.unbindEvents(leafletMap, leafletEvents);
+        leafletMap.setView(center, zoom, { animate: false });
+        helpers_1.bindEvents(leafletMap, leafletEvents);
+    };
     Map.prototype.componentWillUnmount = function () {
         var _this = this;
         setTimeout(function () {
