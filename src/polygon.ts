@@ -24,11 +24,17 @@ class Polygon extends Path {
     componentDidUpdate(prevProps: PolygonProps) {
         super.componentDidUpdate(prevProps);
 
-        const leafletElement: LeafletPolygon = this.leafletElement as LeafletPolygon;
+        /**
+         * setLatLngs works differently in polygons than rectangles. That causes problems on draw revert edited.
+         * We do not need to update bounds here programmatically for now.
+         * We commented it out. We may revisit later.
+         */
 
-        if (this.props.bounds !== prevProps.bounds) {
-            leafletElement.setLatLngs(this.props.bounds)
-        }
+        // const leafletElement: LeafletPolygon = this.leafletElement as LeafletPolygon;
+        //
+        // if (this.props.bounds !== prevProps.bounds) {
+        //     leafletElement.setLatLngs(this.props.bounds)
+        // }
     }
 }
 

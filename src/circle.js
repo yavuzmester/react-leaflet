@@ -21,7 +21,7 @@ var Circle = (function (_super) {
     Circle.prototype.componentDidUpdate = function (prevProps) {
         _super.prototype.componentDidUpdate.call(this, prevProps);
         var leafletElement = this.leafletElement;
-        if (this.props.center !== prevProps.center) {
+        if (JSON.stringify(this.props.center) !== JSON.stringify(prevProps.center)) {
             leafletElement.setLatLng(this.props.center);
         }
         if (this.props.radius !== prevProps.radius) {

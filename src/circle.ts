@@ -27,7 +27,7 @@ class Circle extends Path {
 
         const leafletElement: LeafletCircle = this.leafletElement as LeafletCircle;
 
-        if (this.props.center !== prevProps.center) {
+        if (JSON.stringify(this.props.center) !== JSON.stringify(prevProps.center)) {
             leafletElement.setLatLng(this.props.center)
         }
 

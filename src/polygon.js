@@ -20,10 +20,16 @@ var Polygon = (function (_super) {
     };
     Polygon.prototype.componentDidUpdate = function (prevProps) {
         _super.prototype.componentDidUpdate.call(this, prevProps);
-        var leafletElement = this.leafletElement;
-        if (this.props.bounds !== prevProps.bounds) {
-            leafletElement.setLatLngs(this.props.bounds);
-        }
+        /**
+         * setLatLngs works differently in polygons than rectangles. That causes problems on draw revert edited.
+         * We do not need to update bounds here programmatically for now.
+         * We commented it out. We may revisit later.
+         */
+        // const leafletElement: LeafletPolygon = this.leafletElement as LeafletPolygon;
+        //
+        // if (this.props.bounds !== prevProps.bounds) {
+        //     leafletElement.setLatLngs(this.props.bounds)
+        // }
     };
     return Polygon;
 }(path_1.Path));

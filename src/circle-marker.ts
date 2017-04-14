@@ -26,7 +26,7 @@ class CircleMarker extends Path {
 
         const leafletElement: LeafletCircleMarker = this.leafletElement as LeafletCircleMarker;
 
-        if (this.props.center !== prevProps.center) {
+        if (JSON.stringify(this.props.center) !== JSON.stringify(prevProps.center)) {
             leafletElement.setLatLng(this.props.center);
         }
 
