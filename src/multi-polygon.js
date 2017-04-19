@@ -20,10 +20,16 @@ var MultiPolygon = (function (_super) {
     };
     MultiPolygon.prototype.componentDidUpdate = function (prevProps) {
         _super.prototype.componentDidUpdate.call(this, prevProps);
-        var leafletElement = this.leafletElement;
-        if (this.props.polygons !== prevProps.polygons) {
-            leafletElement.setLatLngs(this.props.polygons);
-        }
+        /**
+         * setLatLngs works differently in polygons than rectangles. That causes problems on draw revert edited.
+         * We do not need to update bounds here programmatically for now.
+         * We commented it out. We may revisit later.
+         */
+        // const leafletElement: LeafletMultiPolygon = this.leafletElement as LeafletMultiPolygon;
+        //
+        // if (this.props.polygons !== prevProps.polygons) {
+        //     leafletElement.setLatLngs(this.props.polygons as any)
+        // }
     };
     return MultiPolygon;
 }(path_1.Path));
