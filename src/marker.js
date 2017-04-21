@@ -18,6 +18,12 @@ var Marker = (function (_super) {
     Marker.prototype.render = function () {
         return null;
     };
+    Marker.prototype.componentDidMount = function () {
+        var leafletElement = this.leafletElement;
+        if ("_icon" in leafletElement) {
+            leafletElement._icon.innerHTML = this.props.text;
+        }
+    };
     Marker.prototype.componentDidUpdate = function (prevProps) {
         var leafletElement = this.leafletElement;
         if (this.props.position !== prevProps.position) {
@@ -25,6 +31,9 @@ var Marker = (function (_super) {
         }
         if (this.props.icon !== prevProps.icon) {
             leafletElement.setIcon(this.props.icon);
+        }
+        if ("_icon" in leafletElement && this.props.text !== prevProps.text) {
+            leafletElement._icon.innerHTML = this.props.text;
         }
         if (this.props.opacity !== prevProps.opacity) {
             leafletElement.setOpacity(this.props.opacity);
