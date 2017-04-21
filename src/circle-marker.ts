@@ -13,7 +13,7 @@ class CircleMarker extends Path {
     initLeafletElement() {
         this.leafletElement = new LeafletCircleMarker(
             this.props.center,
-            Path.createLeafletOptions(omit(this.props, "bounds"))
+            Path.createLeafletOptions(omit(this.props, "center"))
         );
     }
 
