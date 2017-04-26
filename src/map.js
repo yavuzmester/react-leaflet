@@ -53,7 +53,7 @@ var Map = (function (_super) {
             leafletMap.getBounds().getNorthEast(),
             leafletMap.getBounds().getNorthWest()
         ];
-        if ((nextProps.maxBounds !== this.props.maxBounds) && !areLatLngBoundsClose(nextProps.maxBounds, this.props.maxBounds)) {
+        if ((nextProps.maxBounds !== this.props.maxBounds) && !areMaxBoundsClose(nextProps.maxBounds, this.props.maxBounds)) {
             leafletMap.setMaxBounds(nextProps.maxBounds);
         }
         if (nextProps.maxZoom !== this.props.maxZoom) {
@@ -99,13 +99,13 @@ Map.childContextTypes = {
     map: react_1.PropTypes.instanceOf(leaflet_1.Map)
 };
 exports.Map = Map;
-function areLatLngBoundsClose(latLngBounds1, latLngBounds2) {
-    if (latLngBounds1.length !== latLngBounds2.length) {
+function areMaxBoundsClose(maxBounds1, maxBounds2) {
+    if (maxBounds1.length !== maxBounds2.length) {
         return false;
     }
     else {
-        for (var i in latLngBounds1) {
-            var diff = latLngDifference(latLngBounds1[i], latLngBounds2[i]);
+        for (var i in maxBounds1) {
+            var diff = _latLngDifference(maxBounds1[i], maxBounds2[i]);
             if (diff > 1) {
                 return false;
             }
@@ -113,7 +113,7 @@ function areLatLngBoundsClose(latLngBounds1, latLngBounds2) {
         return true;
     }
 }
-function latLngDifference(latLng1, latLng2) {
+function _latLngDifference(latLng1, latLng2) {
     return Math.sqrt(Math.pow(latLng1.lat - latLng2.lat, 2) +
         Math.pow(latLng1.lng - latLng2.lng, 2));
 }

@@ -99,7 +99,7 @@ class Map extends PureComponent<MapProps, {}> {
             leafletMap.getBounds().getNorthWest()
         ];
 
-        if ((nextProps.maxBounds !== this.props.maxBounds) && !areLatLngBoundsClose(nextProps.maxBounds, this.props.maxBounds)) {
+        if ((nextProps.maxBounds !== this.props.maxBounds) && !areMaxBoundsClose(nextProps.maxBounds, this.props.maxBounds)) {
             leafletMap.setMaxBounds(nextProps.maxBounds);
         }
 
@@ -153,13 +153,13 @@ class Map extends PureComponent<MapProps, {}> {
     }
 }
 
-function areLatLngBoundsClose(latLngBounds1: LatLng[], latLngBounds2: LatLng[]): boolean {
-    if (latLngBounds1.length !== latLngBounds2.length) {
+function areMaxBoundsClose(maxBounds1: LatLng[], maxBounds2: LatLng[]): boolean {
+    if (maxBounds1.length !== maxBounds2.length) {
         return false;
     }
     else {
-        for (let i in latLngBounds1) {
-            const diff: number = latLngDifference(latLngBounds1[i], latLngBounds2[i]);
+        for (let i in maxBounds1) {
+            const diff: number = _latLngDifference(maxBounds1[i], maxBounds2[i]);
 
             if (diff > 1) {
                 return false;
@@ -170,7 +170,7 @@ function areLatLngBoundsClose(latLngBounds1: LatLng[], latLngBounds2: LatLng[]):
     }
 }
 
-function latLngDifference(latLng1: LatLng, latLng2: LatLng): number {
+function _latLngDifference(latLng1: LatLng, latLng2: LatLng): number {
     return Math.sqrt(
         Math.pow(latLng1.lat - latLng2.lat, 2) +
         Math.pow(latLng1.lng - latLng2.lng, 2)
