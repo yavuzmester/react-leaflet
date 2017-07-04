@@ -28,3 +28,4 @@ var Rectangle = (function (_super) {
     return Rectangle;
 }(path_1.Path));
 exports.Rectangle = Rectangle;
+//# sourceMappingURL=rectangle.js.map

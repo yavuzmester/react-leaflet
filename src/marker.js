@@ -53,3 +53,4 @@ Marker.defaultProps = {
     })
 };
 exports.Marker = Marker;
+//# sourceMappingURL=marker.js.map

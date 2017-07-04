@@ -30,3 +30,4 @@ var ImageOverlay = (function (_super) {
     return ImageOverlay;
 }(map_layer_1.MapLayer));
 exports.ImageOverlay = ImageOverlay;
+//# sourceMappingURL=image-overlay.js.map

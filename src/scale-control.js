@@ -20,3 +20,4 @@ var ScaleControl = (function (_super) {
     return ScaleControl;
 }(map_control_1.MapControl));
 exports.ScaleControl = ScaleControl;
+//# sourceMappingURL=scale-control.js.map

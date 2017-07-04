@@ -113,3 +113,4 @@ __decorate([
     autobind
 ], LayersControl.prototype, "onOverlayRemove", null);
 exports.LayersControl = LayersControl;
+//# sourceMappingURL=layers-control.js.map

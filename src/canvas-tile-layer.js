@@ -62,3 +62,4 @@ CanvasTileLayer.defaultProps = {
     opacity: 1
 };
 exports.CanvasTileLayer = CanvasTileLayer;
+//# sourceMappingURL=canvas-tile-layer.js.map

@@ -65,3 +65,4 @@ var Path = (function (_super) {
 }(map_layer_1.MapLayer));
 Path.createLeafletOptions = createLeafletOptions;
 exports.Path = Path;
+//# sourceMappingURL=path.js.map

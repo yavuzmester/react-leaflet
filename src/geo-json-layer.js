@@ -21,3 +21,4 @@ var GeoJSONLayer = (function (_super) {
     return GeoJSONLayer;
 }(path_1.Path));
 exports.GeoJSONLayer = GeoJSONLayer;
+//# sourceMappingURL=geo-json-layer.js.map

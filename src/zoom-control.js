@@ -51,3 +51,4 @@ var ZoomControl = (function (_super) {
     return ZoomControl;
 }(map_control_1.MapControl));
 exports.ZoomControl = ZoomControl;
+//# sourceMappingURL=zoom-control.js.map

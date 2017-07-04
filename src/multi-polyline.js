@@ -28,3 +28,4 @@ var MultiPolyline = (function (_super) {
     return MultiPolyline;
 }(path_1.Path));
 exports.MultiPolyline = MultiPolyline;
+//# sourceMappingURL=multi-polyline.js.map

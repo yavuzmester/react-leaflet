@@ -17,3 +17,4 @@ var FeatureGroup = (function (_super) {
     return FeatureGroup;
 }(layer_group_1.LayerGroup));
 exports.FeatureGroup = FeatureGroup;
+//# sourceMappingURL=feature-group.js.map

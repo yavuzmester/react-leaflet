@@ -36,3 +36,4 @@ LayerGroup.childContextTypes = {
     layerGroup: react_1.PropTypes.instanceOf(leaflet_1.LayerGroup)
 };
 exports.LayerGroup = LayerGroup;
+//# sourceMappingURL=layer-group.js.map

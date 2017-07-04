@@ -36,3 +36,4 @@ MapControl.contextTypes = {
     map: react_1.PropTypes.instanceOf(leaflet_1.Map).isRequired
 };
 exports.MapControl = MapControl;
+//# sourceMappingURL=map-control.js.map

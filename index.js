@@ -49,3 +49,4 @@ var circle_marker_1 = require("./src/circle-marker");
 exports.CircleMarker = circle_marker_1.CircleMarker;
 var geo_json_layer_1 = require("./src/geo-json-layer");
 exports.GeoJSONLayer = geo_json_layer_1.GeoJSONLayer;
+//# sourceMappingURL=index.js.map

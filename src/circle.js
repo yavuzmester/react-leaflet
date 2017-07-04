@@ -31,3 +31,4 @@ var Circle = (function (_super) {
     return Circle;
 }(path_1.Path));
 exports.Circle = Circle;
+//# sourceMappingURL=circle.js.map

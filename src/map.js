@@ -47,12 +47,6 @@ var Map = (function (_super) {
     };
     Map.prototype.componentWillReceiveProps = function (nextProps) {
         var leafletMap = this.leafletElement, leafletEvents = this._leafletEvents, nextLeafletEvents = helpers_1.extractEvents(nextProps);
-        var currentLeafletMapBounds = [
-            leafletMap.getBounds().getSouthWest(),
-            leafletMap.getBounds().getSouthEast(),
-            leafletMap.getBounds().getNorthEast(),
-            leafletMap.getBounds().getNorthWest()
-        ];
         if ((nextProps.maxBounds !== this.props.maxBounds) && !areMaxBoundsClose(nextProps.maxBounds, this.props.maxBounds)) {
             leafletMap.setMaxBounds(nextProps.maxBounds);
         }
@@ -69,13 +63,13 @@ var Map = (function (_super) {
     Map.prototype.fitBoundsWithoutEvents = function (bounds) {
         var leafletMap = this.leafletElement, leafletEvents = this._leafletEvents;
         helpers_1.unbindEvents(leafletMap, leafletEvents);
-        leafletMap.fitBounds(bounds, { animate: false });
+        leafletMap.fitBounds(bounds, { animate: false }); //if animate setView may not adjust center when viewport the same
         helpers_1.bindEvents(leafletMap, leafletEvents);
     };
     Map.prototype.setViewWithoutEvents = function (center, zoom) {
         var leafletMap = this.leafletElement, leafletEvents = this._leafletEvents;
         helpers_1.unbindEvents(leafletMap, leafletEvents);
-        leafletMap.setView(center, zoom, { animate: false });
+        leafletMap.setView(center, zoom, { animate: false }); //if animate setView may not adjust center when viewport the same
         helpers_1.bindEvents(leafletMap, leafletEvents);
     };
     Map.prototype.componentWillUnmount = function () {
@@ -117,3 +111,4 @@ function _latLngDifference(latLng1, latLng2) {
     return Math.sqrt(Math.pow(latLng1.lat - latLng2.lat, 2) +
         Math.pow(latLng1.lng - latLng2.lng, 2));
 }
+//# sourceMappingURL=map.js.map

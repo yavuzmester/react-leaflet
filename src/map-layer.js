@@ -30,3 +30,4 @@ MapLayer.contextTypes = {
     layerGroup: react_1.PropTypes.instanceOf(leaflet_1.LayerGroup)
 };
 exports.MapLayer = MapLayer;
+//# sourceMappingURL=map-layer.js.map

@@ -18,3 +18,4 @@ var WMSTileLayer = (function (_super) {
     return WMSTileLayer;
 }(tile_layer_1.TileLayer));
 exports.WMSTileLayer = WMSTileLayer;
+//# sourceMappingURL=wms-tile-layer.js.map

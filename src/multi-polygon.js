@@ -34,3 +34,4 @@ var MultiPolygon = (function (_super) {
     return MultiPolygon;
 }(path_1.Path));
 exports.MultiPolygon = MultiPolygon;
+//# sourceMappingURL=multi-polygon.js.map

@@ -70,3 +70,4 @@ MarkerClusterLayer.defaultProps = {
     data: []
 };
 exports.MarkerClusterLayer = MarkerClusterLayer;
+//# sourceMappingURL=marker-cluster-layer.js.map

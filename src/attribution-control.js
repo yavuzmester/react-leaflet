@@ -20,3 +20,4 @@ var AttributionControl = (function (_super) {
     return AttributionControl;
 }(map_control_1.MapControl));
 exports.AttributionControl = AttributionControl;
+//# sourceMappingURL=attribution-control.js.map

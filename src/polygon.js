@@ -34,3 +34,4 @@ var Polygon = (function (_super) {
     return Polygon;
 }(path_1.Path));
 exports.Polygon = Polygon;
+//# sourceMappingURL=polygon.js.map

@@ -34,3 +34,4 @@ TileLayer.defaultProps = {
     opacity: 1
 };
 exports.TileLayer = TileLayer;
+//# sourceMappingURL=tile-layer.js.map
